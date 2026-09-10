@@ -41,10 +41,13 @@ import {
   Sphere,
 } from 'react-simple-maps';
 import geography from 'world-atlas/countries-110m.json';
-import ExactLoader1 from '../components/referenceExact/ExactLoader1';
 import ExactAttackSwitch from '../components/referenceExact/ExactAttackSwitch';
-import ExactAIIcon from '../components/referenceExact/ExactAIIcon';
 import ExactBackground from '../components/referenceExact/ExactBackground';
+import { Cyb3r_SocMark } from '../components/brand/Cyb3r_SocLogo';
+import { AmbientField } from '../components/brand/AmbientField';
+import { CyberAI } from '../components/ai/CyberAI';
+import { dashboardFixture } from '../data/fixtures/dashboard.fixture';
+import { useSOCStore } from '../app/store/useSOCStore';
 import './reference-dashboard.css';
 
 type SystemState = 'online' | 'offline';
@@ -118,7 +121,7 @@ const attackRoutes: Array<{ from: [number, number]; to: [number, number]; tone: 
 export function ReferenceBrandMark({ size = 52 }: { size?: number }) {
   return (
     <span className="rd-exact-brand" style={{ '--mark-size': `${size}px` } as CSSProperties} aria-hidden="true">
-      <ExactLoader1 />
+      <Cyb3r_SocMark size={size} />
     </span>
   );
 }
@@ -137,10 +140,10 @@ export function ReferenceSidebar({
         <X size={20} />
       </button>
 
-      <Link className="rd-brand" to="/dashboard" onClick={onClose} aria-label="CyberSOC, ir al dashboard">
+      <Link className="rd-brand" to="/dashboard" onClick={onClose} aria-label="Cyb3r_Soc, ir al dashboard">
         <ReferenceBrandMark size={57} />
         <span className="rd-brand-copy">
-          <strong>Cyber<span>SOC</span></strong>
+          <strong>Cyb3r_<span>Soc</span></strong>
           <small>DETECTAR · ANALIZAR · PROTEGER</small>
         </span>
       </Link>
@@ -183,7 +186,7 @@ export function ReferenceSidebar({
       <div className={`rd-soc-status ${status === 'offline' ? 'is-offline' : ''}`}>
         <i />
         <span>
-          <strong>{status === 'online' ? 'SOC Online' : 'CyberSOC Offline'}</strong>
+          <strong>{status === 'online' ? 'SOC Online' : 'Cyb3r_Soc Offline'}</strong>
           <small>{status === 'online' ? 'Todos los sistemas operativos' : 'No hay conexión con el servidor'}</small>
         </span>
       </div>
@@ -192,7 +195,7 @@ export function ReferenceSidebar({
         <i /><i /><i /><i /><i />
       </div>
       <p className="rd-sidebar-motto">UN MUNDO<br />MÁS SEGURO<br />ES POSIBLE</p>
-      <small className="rd-version">CyberSOC v1.0.0</small>
+      <small className="rd-version">Cyb3r_Soc v1.0.0</small>
     </aside>
   );
 }
@@ -237,6 +240,7 @@ export function ReferenceShell({ children, activePath = '/dashboard', status = '
   return (
     <div className="reference-shell">
       <div className="rd-space-background" aria-hidden="true">
+        <AmbientField/>
         <div className="rd-exact-background"><ExactBackground /></div>
         <i className="rd-bg-poly rd-bg-poly-one" />
         <i className="rd-bg-poly rd-bg-poly-two" />
@@ -303,7 +307,7 @@ function ThreatMapPanel() {
         <span className="rd-section-symbol"><Crosshair size={18} /></span>
         <span className="rd-section-title">
           <strong>Mapa de amenazas en tiempo real</strong>
-          <small>Ataques y actividad global detectada por CyberSOC</small>
+          <small>Ataques y actividad global detectada por Cyb3r_Soc</small>
         </span>
         <div className="rd-map-filters">
           <button type="button">Últimas 24 horas <ChevronDown size={13} /></button>
@@ -315,9 +319,11 @@ function ThreatMapPanel() {
         <ComposableMap
           width={960}
           height={382}
-          projectionConfig={{ center: [6, 9], scale: 145 }}
+          projection="geoNaturalEarth1"
+          projectionConfig={{ center: [0, 12], scale: 174 }}
           aria-label="Mapa mundial con rutas de ataques activos"
         >
+          <defs><pattern id="dashboard-land" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#29183d"/><circle cx="1" cy="2" r=".65" fill="#9155ca" opacity=".6"/><circle cx="5" cy="6" r=".4" fill="#ae81dc" opacity=".55"/></pattern></defs>
           <Sphere id="rd-world-sphere" fill="transparent" stroke="rgba(150,120,205,.1)" strokeWidth={0.45} />
           <Graticule stroke="rgba(135,104,183,.14)" strokeWidth={0.42} />
           <Geographies geography={geography as unknown as string}>
@@ -325,7 +331,7 @@ function ThreatMapPanel() {
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
-                fill="#33234d"
+                fill="url(#dashboard-land)"
                 stroke="#5b3d7b"
                 strokeWidth={0.32}
               />
@@ -381,6 +387,7 @@ function ThreatMapPanel() {
 }
 
 function AttackSimulationCard() {
+  const addAttack = useSOCStore(state => state.addAttack);
   return (
     <section className="rd-attack-card rd-panel">
       <header className="rd-section-header">
@@ -391,7 +398,7 @@ function AttackSimulationCard() {
         </span>
       </header>
 
-      <div className="rd-exact-attack"><ExactAttackSwitch /></div>
+      <div className="rd-exact-attack"><ExactAttackSwitch buttonLabel="Iniciar simulación" onLaunch={() => addAttack('DDoS')} /></div>
     </section>
   );
 }
@@ -484,31 +491,27 @@ function ThreatAnalytics() {
 }
 
 export function CyberAssistant() {
-  return (
-    <div className="rd-assistant">
-      <span className="rd-assistant-bubble">¿En qué puedo<br />ayudarte hoy? <ChevronRight size={14} /></span>
-      <button className="rd-ai-orb rd-exact-ai" type="button" aria-label="Abrir asistente CyberSOC"><ExactAIIcon /></button>
-    </div>
-  );
+  return <CyberAI />;
 }
 
 export function DashboardReference({ withoutShell = false }: { withoutShell?: boolean }) {
+  const [activeThreats, criticalIncidents, monitoredAssets, meanResponse] = dashboardFixture.metrics;
   const content = (
     <main className="reference-dashboard">
       <div className="rd-dashboard-heading">
         <div>
           <span>VISTA GLOBAL</span>
-          <h1>Bienvenido a <b>CyberSOC</b></h1>
+          <h1>Bienvenido a <b>Cyb3r_Soc</b></h1>
           <p>Visibilidad. Contexto. Acción. Un entorno más seguro comienza aquí.</p>
         </div>
-        <blockquote>“La mejor defensa es una operación más inteligente.”<small>— CyberSOC</small></blockquote>
+        <blockquote>“La mejor defensa es una operación más inteligente.”<small>— Cyb3r_Soc</small></blockquote>
       </div>
 
       <div className="rd-stats-grid">
-        <StatCard icon={<Shield size={29} />} label="Amenazas activas" value="247" delta="+12%" chart={[12, 20, 18, 26, 28, 38, 27, 22, 32, 34]} tone="red" />
-        <StatCard icon={<TriangleAlert size={29} />} label="Incidentes críticos" value="18" delta="+50%" chart={[11, 15, 14, 20, 18, 23, 22, 27, 31, 35]} tone="red" />
-        <StatCard icon={<Monitor size={29} />} label="Activos monitoreados" value="1,428" delta="+4%" chart={[9, 15, 18, 24, 20, 19, 26, 22, 30, 34]} tone="purple" />
-        <StatCard icon={<Clock3 size={29} />} label="Tiempo medio de respuesta" value="12 min" delta="-35%" direction="down" chart={[7, 20, 31, 23, 16, 13, 22, 30, 34, 33]} tone="green" />
+        <StatCard icon={<Shield size={29} />} {...activeThreats} chart={[12, 20, 18, 26, 28, 38, 27, 22, 32, 34]} tone="red" />
+        <StatCard icon={<TriangleAlert size={29} />} {...criticalIncidents} chart={[11, 15, 14, 20, 18, 23, 22, 27, 31, 35]} tone="red" />
+        <StatCard icon={<Monitor size={29} />} {...monitoredAssets} chart={[9, 15, 18, 24, 20, 19, 26, 22, 30, 34]} tone="purple" />
+        <StatCard icon={<Clock3 size={29} />} {...meanResponse} direction="down" chart={[7, 20, 31, 23, 16, 13, 22, 30, 34, 33]} tone="green" />
       </div>
 
       <div className="rd-dashboard-grid">

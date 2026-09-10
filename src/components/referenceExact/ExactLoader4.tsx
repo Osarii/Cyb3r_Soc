@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { TriangleAlert, Network, Server, CircuitBoard } from 'lucide-react';
+import { Cyb3r_SocMark } from '../brand/Cyb3r_SocLogo';
+import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
+import geography from 'world-atlas/countries-110m.json';
 
 const ExactLoader4 = () => {
   return (
@@ -7,12 +11,12 @@ const ExactLoader4 = () => {
       <div className="loader-container">
         <div className="loader-3d">
           <div className="loader-inner">
-            <div className="loader-face loader-face-front" />
-            <div className="loader-face loader-face-back" />
-            <div className="loader-face loader-face-right" />
-            <div className="loader-face loader-face-left" />
-            <div className="loader-face loader-face-top" />
-            <div className="loader-face loader-face-bottom" />
+            <div className="loader-face loader-face-front"><TriangleAlert/></div>
+            <div className="loader-face loader-face-back"><Server/></div>
+            <div className="loader-face loader-face-right"><ComposableMap width={240} height={180} projection="geoNaturalEarth1" projectionConfig={{scale:40}}><defs><pattern id="cube-land" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".7" fill="#c293f7"/></pattern></defs><Geographies geography={geography as unknown as string}>{({geographies})=>geographies.map(geo=><Geography key={geo.rsmKey} geography={geo} fill="url(#cube-land)" stroke="none"/>)}</Geographies></ComposableMap></div>
+            <div className="loader-face loader-face-left"><Network/></div>
+            <div className="loader-face loader-face-top"><CircuitBoard/></div>
+            <div className="loader-face loader-face-bottom"><Cyb3r_SocMark size={115}/></div>
           </div>
         </div>
       </div>

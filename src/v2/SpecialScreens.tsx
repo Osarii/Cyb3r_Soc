@@ -1,4 +1,4 @@
-import type { ComponentType, CSSProperties, ReactNode, SVGProps } from 'react';
+import type { ComponentType, ReactNode, SVGProps } from 'react';
 import {
   ArrowLeft,
   Bell,
@@ -26,11 +26,15 @@ import {
   UsersRound,
   WifiOff,
 } from 'lucide-react';
-import ExactLoader1 from '../components/referenceExact/ExactLoader1';
 import ExactLoader2 from '../components/referenceExact/ExactLoader2';
 import ExactLoader4 from '../components/referenceExact/ExactLoader4';
-import ExactAIIcon from '../components/referenceExact/ExactAIIcon';
 import ExactBackground from '../components/referenceExact/ExactBackground';
+import { CyberAI } from '../components/ai/CyberAI';
+import { Cyb3r_SocMark } from '../components/brand/Cyb3r_SocLogo';
+import { AmbientField } from '../components/brand/AmbientField';
+import { mitigationFixture } from '../data/fixtures/mitigation.fixture';
+import { offlineFixture } from '../data/fixtures/offline.fixture';
+import ddosInterceptor from '../assets/illustrations/ddos-interceptor.png';
 import './special-screens.css';
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
@@ -42,6 +46,7 @@ export interface InitialBootScreenV2Props {
 
 export interface DDoSMitigationScreenV2Props {
   progress: number;
+  paused?: boolean;
   onPause?: () => void;
   onCancel?: () => void;
 }
@@ -99,15 +104,14 @@ function clampProgress(value: number | undefined) {
 
 function CrystalMark({ className = '', compact = false }: { className?: string; compact?: boolean }) {
   return <span className={`ss-crystal-mark ${compact ? 'ss-crystal-mark--compact' : ''} ${className}`} aria-hidden="true">
-    {Array.from({ length: 12 }, (_, index) => <i key={index} style={{ '--ray': index } as CSSProperties}/>) }
-    <b/>
+    <Cyb3r_SocMark size={compact ? 27 : 65}/>
   </span>;
 }
 
 function BrandLockup({ compact = false }: { compact?: boolean }) {
   return <div className={`ss-brand ${compact ? 'ss-brand--compact' : ''}`}>
     <CrystalMark compact={compact}/>
-    <div><strong>Cyber<span>SOC</span></strong><small>DETECTAR · ANALIZAR · PROTEGER</small></div>
+    <div><strong>Cyb3r_<span>Soc</span></strong><small>DETECTAR · ANALIZAR · PROTEGER</small></div>
   </div>;
 }
 
@@ -129,7 +133,7 @@ function TopBar({ offline = false }: { offline?: boolean }) {
       <button type="button" className="ss-notification" aria-label="Notificaciones"><Bell/><i/></button>
       <span className="ss-top-divider"/>
       <button type="button" className="ss-ops-selector">
-        <i className={offline ? 'offline' : ''}/>
+        <i className={offline ? 'is-offline' : ''}/>
         <span><b>Centro de Operaciones</b><small>{offline ? 'Sin conexión' : 'En tiempo real'}</small></span>
         <span aria-hidden>⌄</span>
       </button>
@@ -151,24 +155,22 @@ function Sidebar() {
     <div className="ss-soc-online"><i/><span><b>SOC Online</b><small>Todos los sistemas operativos</small></span></div>
     <div className="ss-sidebar-crystal"><CrystalMark/></div>
     <div className="ss-sidebar-motto">UN MUNDO<br/>MÁS SEGURO<br/>ES POSIBLE</div>
-    <small className="ss-version">CyberSOC v1.0.0</small>
+    <small className="ss-version">Cyb3r_Soc v1.0.0</small>
   </aside>;
 }
 
 function CyberAIOrb() {
-  return <div className="ss-ai" aria-label="CyberAI">
-    <div className="ss-ai-prompt">¿En qué puedo<br/>ayudarte hoy? <span>››</span></div>
-    <div className="ss-ai-orb ss-exact-ai"><ExactAIIcon/></div>
-  </div>;
+  return <CyberAI/>;
 }
 
 function SpecialChrome({ children, offline = false }: { children: ReactNode; offline?: boolean }) {
   return <div className="ss-shell">
+    <AmbientField/>
     <div className="ss-exact-background"><ExactBackground/></div>
     <Sidebar/>
     <TopBar offline={offline}/>
     <div className="ss-ambient" aria-hidden="true"/>
-    <div className="ss-quote">“La mejor defensa es una operación más inteligente.”<small>— CyberSOC</small></div>
+    <div className="ss-quote">“La mejor defensa es una operación más inteligente.”<small>— Cyb3r_Soc</small></div>
     <main className="ss-shell-main">{children}</main>
     <CyberAIOrb/>
   </div>;
@@ -176,13 +178,14 @@ function SpecialChrome({ children, offline = false }: { children: ReactNode; off
 
 /** Exact five-layer rotating-star structure from code/loader_1.txt, reskinned in-place. */
 function LoaderOneCore() {
-  return <div className="ss-loader-one ss-exact-loader-one" aria-hidden="true"><ExactLoader1/></div>;
+  return <div className="ss-loader-one" aria-hidden="true"><Cyb3r_SocMark size={390} animated/></div>;
 }
 
 export function InitialBootScreenV2({ progress = 68, onSkip }: InitialBootScreenV2Props) {
   const safeProgress = clampProgress(progress);
   const labels = ['Verificando entorno', 'Cargando módulos\nde monitoreo', 'Conectando fuentes\nde datos', 'Inicializando\ninteligencia'];
-  return <section className="ss-boot-screen" aria-label="Inicializando CyberSOC">
+  return <section className="ss-boot-screen" aria-label="Inicializando Cyb3r_Soc">
+    <AmbientField/>
     <div className="ss-boot-noise" aria-hidden="true"/>
     <BrandLockup/>
     <div className="ss-boot-top-motto">UN MUNDO<br/>MÁS SEGURO<br/>ES POSIBLE<i/></div>
@@ -190,7 +193,7 @@ export function InitialBootScreenV2({ progress = 68, onSkip }: InitialBootScreen
     <div className="ss-boot-center">
       <div className="ss-boot-orbits" aria-hidden="true"><i/><i/><i/><i/><span>+</span><span>+</span><span>+</span><span>+</span></div>
       <LoaderOneCore/>
-      <h1>Inicializando <span>CyberSOC</span></h1>
+      <h1>Inicializando <span>Cyb3r_Soc</span></h1>
       <p>CARGANDO MÓDULOS DE MONITOREO</p>
       <div className="ss-boot-progress-row">
         <div className="ss-boot-progress"><i style={{ width: `${safeProgress}%` }}/></div><strong>{Math.round(safeProgress)}%</strong>
@@ -203,7 +206,7 @@ export function InitialBootScreenV2({ progress = 68, onSkip }: InitialBootScreen
       {['INICIALIZANDO', 'MÓDULOS', 'DATOS', 'INTELIGENCIA', 'LISTO'].map((label, index) => <span className={index === 0 ? 'active' : ''} key={label}><i/>{label}</span>)}
     </div>
     <div className="ss-boot-wave" aria-hidden="true"/>
-    <small className="ss-boot-version">CyberSOC v1.0.0</small>
+    <small className="ss-boot-version">Cyb3r_Soc v1.0.0</small>
     <small className="ss-boot-operations">CENTRO DE OPERACIONES<br/>DE SEGURIDAD</small>
     {onSkip ? <button type="button" className="ss-boot-skip" onClick={onSkip}>OMITIR INTRO</button> : null}
   </section>;
@@ -211,7 +214,10 @@ export function InitialBootScreenV2({ progress = 68, onSkip }: InitialBootScreen
 
 /** Exact DOM hierarchy from code/loader_2.txt, recolored for the reference screen. */
 function SpeederCore() {
-  return <div className="ss-speeder ss-exact-speeder" aria-hidden="true"><ExactLoader2/></div>;
+  return <div className="ss-speeder ss-exact-speeder" aria-hidden="true">
+    <ExactLoader2/>
+    <img className="ss-interceptor" src={ddosInterceptor} alt=""/>
+  </div>;
 }
 
 function MitigationMetric({ icon: IconComponent, label, value, note, positive = true }: {
@@ -226,16 +232,16 @@ function MitigationMetric({ icon: IconComponent, label, value, note, positive = 
   </article>;
 }
 
-export function DDoSMitigationScreenV2({ progress, onPause, onCancel }: DDoSMitigationScreenV2Props) {
+export function DDoSMitigationScreenV2({ progress, paused = false, onPause, onCancel }: DDoSMitigationScreenV2Props) {
   const safeProgress = clampProgress(progress);
   const activeStage = safeProgress >= 100 ? 4 : Math.min(4, Math.floor(safeProgress / 30));
   return <SpecialChrome>
-    <div className="ss-mitigation-page">
+    <div className="ss-mitigation-page" data-paused={paused}>
       <a className="ss-back-link" href="#/dashboard"><ArrowLeft/> Volver al dashboard</a>
       <h1>Mitigando ataque <span>DDoS</span></h1>
       <p className="ss-mitigation-subtitle">Respuesta automática en ejecución. Limpiando tráfico malicioso en tiempo real.</p>
       <div className="ss-incident-pills">
-        <span><Shield/>Incidente #INC-2024-7781</span><span className="danger"><TriangleAlert/>Ataque DDoS</span><span><Globe2/>203.0.113.0/24</span><span><Clock3/>Iniciado hace 3 min</span>
+        <span><Shield/>Incidente #{mitigationFixture.incidentId}</span><span className="danger"><TriangleAlert/>Ataque DDoS</span><span><Globe2/>203.0.113.0/24</span><span><Clock3/>Iniciado hace 3 min</span>
       </div>
       <section className="ss-mitigation-focus">
         <div className="ss-speeder-stage"><div className="ss-speeder-rings"/><SpeederCore/></div>
@@ -257,7 +263,7 @@ export function DDoSMitigationScreenV2({ progress, onPause, onCancel }: DDoSMiti
       </div>
       <div className="ss-mitigation-footer">
         <Info/><span><b>Las acciones manuales están deshabilitadas mientras se ejecuta la mitigación.</b><small>Una vez completado el proceso, podrás realizar nuevas acciones sobre el incidente.</small></span>
-        <CyberButton primary onClick={onPause} disabled={!onPause}><CirclePause/>Pausar mitigación</CyberButton>
+        <CyberButton primary onClick={onPause} disabled={!onPause}><CirclePause/>{paused ? 'Reanudar mitigación' : 'Pausar mitigación'}</CyberButton>
         <CyberButton onClick={onCancel} disabled={!onCancel}><Square/>Cancelar proceso</CyberButton>
       </div>
       <aside className="ss-live-column">
@@ -290,15 +296,15 @@ export function ServerUnavailableV2({ onRetry, onBack }: ServerUnavailableV2Prop
       <div className="ss-offline-right-motto">DETECTAR<br/>ANALIZAR<br/>PROTEGER<br/>SIEMPRE</div>
       <OfflineCube/>
       <div className="ss-offline-copy">
-        <h1>Servidor <span>no disponible</span></h1>
-        <h2>No fue posible conectar con el centro de operaciones.</h2>
-        <p>El servicio de CyberSOC está temporalmente fuera de línea. Verifica tu conexión<br/>o inténtalo de nuevo en unos momentos.</p>
+        <h1>Servidor <span>{offlineFixture.title.replace('Servidor ', '')}</span></h1>
+        <h2>{offlineFixture.subtitle}</h2>
+        <p>El servicio de Cyb3r_Soc está temporalmente fuera de línea. Verifica tu conexión<br/>o inténtalo de nuevo en unos momentos.</p>
         <div><CyberButton primary onClick={onRetry}><RefreshCw/>Reintentar</CyberButton><CyberButton onClick={onBack}><ArrowLeft/>Volver al panel</CyberButton></div>
       </div>
       <div className="ss-offline-cards">
         <article className="ss-faceted-panel"><div className="danger"><Database/></div><span><small>Estado del servicio</small><strong>Sin conexión</strong><p>No se puede alcanzar el centro de operaciones.</p></span></article>
-        <article className="ss-faceted-panel"><div><Clock3/></div><span><small>Último intento</small><strong>10:24:17</strong><p>Hace unos segundos</p></span></article>
-        <article className="ss-faceted-panel"><div className="danger"><WifiOff/></div><span><small>Causa probable</small><strong>Servidor no responde</strong><p>Verifica tu red o contacta al equipo de TI.</p></span></article>
+        <article className="ss-faceted-panel"><div><Clock3/></div><span><small>Último intento</small><strong>{offlineFixture.lastAttempt}</strong><p>Hace unos segundos</p></span></article>
+        <article className="ss-faceted-panel"><div className="danger"><WifiOff/></div><span><small>Causa probable</small><strong>{offlineFixture.probableCause}</strong><p>Verifica tu red o contacta al equipo de TI.</p></span></article>
       </div>
       <footer><i/>RESILIENCIA HOY. OPERACIONES MÁS FUERTES MAÑANA.<i/></footer>
     </section>

@@ -1,4 +1,4 @@
-# CyberSOC Design System
+# Cyb3r_Soc Design System
 
 The interface uses shared tokens in `src/styles/global.css`. Backgrounds are charcoal and near-black, primary UI accents are purple and lavender, and status colors are semantic. Buttons, panels, cards, fields, badges, status chips, progress bars, and stat cards live in `src/components/ui`.
 

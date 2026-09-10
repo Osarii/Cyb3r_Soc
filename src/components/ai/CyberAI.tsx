@@ -1,3 +1,117 @@
-import { useState } from 'react';import { Mic, Send, Volume2, VolumeX, X } from 'lucide-react';import { useNavigate } from 'react-router-dom';import { useSOCStore } from '../../app/store/useSOCStore';import { CyberButton, CyberIconButton, CyberInput } from '../ui';
-declare global{interface Window{webkitSpeechRecognition?:new()=>any;SpeechRecognition?:new()=>any}}
-export function CyberAI(){const [open,setOpen]=useState(false),[text,setText]=useState(''),[answer,setAnswer]=useState('Centro de operaciones estable. ¿En qué puedo ayudarte?'),[muted,setMuted]=useState(false);const nav=useNavigate(),state=useSOCStore();const respond=(query:string)=>{const q=query.toLowerCase();state.setAIState('THINKING');setTimeout(()=>{let a='Puedo consultar el estado del SOC, incidentes, activos y navegación interna.';if(q.includes('mapa')){nav('/threat-map');a='Abriendo el mapa global de amenazas.'}else if(q.includes('crític'))a=`Hay ${state.incidents.filter(i=>i.severity==='Critical'&&i.status!=='Resolved').length} incidentes críticos abiertos.`;else if(q.includes('activo'))a=`Se monitorean 2,847 activos ficticios. ${state.incidents.filter(i=>i.status==='Active').length} incidentes están activos.`;else if(q.includes('ddos')&&q.includes('inicia'))a='He preparado la simulación. Confirma el inicio desde la consola.';else if(q.includes('resume')||q.includes('estado'))a=`SOC estable. ${state.incidents.filter(i=>i.status!=='Resolved').length} incidentes abiertos y ${state.attacks.length} simulaciones en curso.`;setAnswer(a);state.setAIState('SPEAKING');if(!muted&&'speechSynthesis'in window){speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(a))}setTimeout(()=>state.setAIState('IDLE'),2200)},600)};const listen=()=>{const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){setAnswer('El reconocimiento de voz no está disponible. Usa el campo de texto.');return}const r=new R();r.lang='es-ES';state.setAIState('LISTENING');r.onresult=(e:any)=>{const q=e.results[0][0].transcript;setText(q);respond(q)};r.onerror=()=>state.setAIState('ERROR');r.onend=()=>state.aiState==='LISTENING'&&state.setAIState('IDLE');r.start()};return <div className={`cyber-ai ${state.aiState.toLowerCase()}`}><div className={`ai-panel ${open?'open':''}`}><header><div><b>CYBERAI</b><span><i/> {state.aiState}</span></div><CyberIconButton onClick={()=>setOpen(false)} aria-label="Cerrar asistente"><X size={16}/></CyberIconButton></header><div className="ai-message">{answer}</div><div className="ai-prompts"><button onClick={()=>respond('Resume el estado del SOC')}>Resumen del SOC</button><button onClick={()=>respond('Incidentes críticos')}>Incidentes críticos</button></div><form onSubmit={e=>{e.preventDefault();if(text){respond(text);setText('')}}}><CyberInput value={text} onChange={e=>setText(e.target.value)} placeholder="Pregunta a CyberAI…"/><CyberIconButton type="submit" aria-label="Enviar"><Send size={16}/></CyberIconButton></form><div className="voice-row"><CyberButton onClick={listen}><Mic size={14}/> Escuchar</CyberButton><CyberIconButton onClick={()=>setMuted(!muted)} aria-label={muted?'Activar voz':'Silenciar voz'}>{muted?<VolumeX size={15}/>:<Volume2 size={15}/>}</CyberIconButton></div></div><button className="ai-orb" onClick={()=>setOpen(!open)} aria-label="Abrir CyberAI"><span/><svg viewBox="0 0 100 100"><path d="M5 50C25 50 30 20 50 20s25 30 45 30M5 50c20 0 25 30 45 30s25-30 45-30"/></svg></button><label>CYBERAI</label></div>}
+import { useState, type FormEvent } from 'react';
+import { Mic, Send, Volume2, VolumeX, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useSOCStore } from '../../app/store/useSOCStore';
+import ExactAIIcon from '../referenceExact/ExactAIIcon';
+import { CyberButton, CyberIconButton, CyberInput } from '../ui';
+
+declare global {
+  interface Window {
+    webkitSpeechRecognition?: new () => any;
+    SpeechRecognition?: new () => any;
+  }
+}
+
+export function CyberAI() {
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState('');
+  const [answer, setAnswer] = useState('Centro de operaciones estable. ¿En qué puedo ayudarte?');
+  const [muted, setMuted] = useState(false);
+  const navigate = useNavigate();
+  const state = useSOCStore();
+
+  const speak = (message: string) => {
+    if (muted || !('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(message);
+    utterance.lang = 'es-CR';
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const respond = (query: string) => {
+    const normalized = query.toLowerCase();
+    state.setAIState('THINKING');
+
+    window.setTimeout(() => {
+      let message = 'Puedo consultar el estado del SOC, incidentes, activos y navegación interna.';
+      if (normalized.includes('mapa')) {
+        navigate('/threat-map');
+        message = 'Abriendo el mapa global de amenazas.';
+      } else if (normalized.includes('crític')) {
+        const critical = state.incidents.filter(item => item.severity === 'Critical' && item.status !== 'Resolved').length;
+        message = `Hay ${critical} incidentes críticos abiertos.`;
+      } else if (normalized.includes('activo')) {
+        const active = state.incidents.filter(item => item.status === 'Active').length;
+        message = `Se monitorean mil cuatrocientos veintiocho activos y hay ${active} incidentes activos.`;
+      } else if (normalized.includes('ddos') && normalized.includes('inicia')) {
+        message = 'La simulación DDoS se inicia únicamente desde la consola de ataque controlado.';
+      } else if (normalized.includes('resume') || normalized.includes('estado')) {
+        const openIncidents = state.incidents.filter(item => item.status !== 'Resolved').length;
+        message = `El SOC está estable. Hay ${openIncidents} incidentes abiertos y ${state.attacks.length} simulaciones en curso.`;
+      }
+
+      setAnswer(message);
+      state.setAIState('SPEAKING');
+      speak(message);
+      window.setTimeout(() => state.setAIState('IDLE'), 2200);
+    }, 600);
+  };
+
+  const listen = () => {
+    const Recognition = window.SpeechRecognition ?? window.webkitSpeechRecognition;
+    if (!Recognition) {
+      setAnswer('El reconocimiento de voz no está disponible en este navegador. Usa el campo de texto.');
+      return;
+    }
+
+    const recognition = new Recognition();
+    recognition.lang = 'es-CR';
+    recognition.interimResults = false;
+    recognition.continuous = false;
+    state.setAIState('LISTENING');
+    recognition.onresult = (event: any) => {
+      const query = event.results[0][0].transcript as string;
+      setText(query);
+      respond(query);
+    };
+    recognition.onerror = () => state.setAIState('ERROR');
+    recognition.onend = () => {
+      if (useSOCStore.getState().aiState === 'LISTENING') state.setAIState('IDLE');
+    };
+    recognition.start();
+  };
+
+  const submit = (event: FormEvent) => {
+    event.preventDefault();
+    const query = text.trim();
+    if (!query) return;
+    respond(query);
+    setText('');
+  };
+
+  return <div className={`cyber-ai ${state.aiState.toLowerCase()}`}>
+    <div className={`ai-panel ${open ? 'open' : ''}`} aria-hidden={!open}>
+      <header>
+        <div><b>CYBERAI</b><span><i/> {state.aiState}</span></div>
+        <CyberIconButton onClick={() => setOpen(false)} aria-label="Cerrar asistente"><X size={16}/></CyberIconButton>
+      </header>
+      <div className="ai-message" aria-live="polite">{answer}</div>
+      <div className="ai-prompts">
+        <button type="button" onClick={() => respond('Resume el estado del SOC')}>Resumen del SOC</button>
+        <button type="button" onClick={() => respond('Incidentes críticos')}>Incidentes críticos</button>
+      </div>
+      <form onSubmit={submit}>
+        <CyberInput value={text} onChange={event => setText(event.target.value)} placeholder="Pregunta a CyberAI…" aria-label="Pregunta a CyberAI"/>
+        <CyberIconButton type="submit" aria-label="Enviar"><Send size={16}/></CyberIconButton>
+      </form>
+      <div className="voice-row">
+        <CyberButton onClick={listen}><Mic size={14}/> Escuchar</CyberButton>
+        <CyberIconButton onClick={() => setMuted(value => !value)} aria-label={muted ? 'Activar voz' : 'Silenciar voz'}>{muted ? <VolumeX size={15}/> : <Volume2 size={15}/>}</CyberIconButton>
+      </div>
+    </div>
+    <span className="cyber-ai-tooltip">¿En qué puedo<br/>ayudarte hoy?</span>
+    <button className="ai-orb" type="button" onClick={() => setOpen(value => !value)} aria-label="Abrir CyberAI" aria-expanded={open}>
+      <ExactAIIcon/>
+    </button>
+  </div>;
+}

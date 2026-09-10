@@ -1,6 +1,6 @@
 # Interactions
 
-- Boot animation appears once per browser session through `cybersoc_initialized`.
+- Boot animation appears once per browser session through `cyb3r_soc_initialized`.
 - Simulation requires ARM → OPEN COVER → LAUNCH → confirmation → countdown.
 - Every launch creates only local fictitious data and a corresponding incident.
 - Containment updates trajectory and incident state. Cleanup runs a progressive mitigation sequence and resolves the incident.

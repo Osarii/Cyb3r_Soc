@@ -1,25 +1,30 @@
-# Implementation audit
+# Estado de implementación
 
-## COMPLETED
+## Current state
 
-- Reference-calibrated 1680×945 dashboard, threat-map, mitigation, boot, and offline compositions
-- Literal 6/6 copies of the supplied `code/` components, rendered directly by the new screens
-- Multi-route React/TypeScript architecture and persistent responsive shell
-- Purple CyberSOC tokens, faceted UI primitives, logo, background, boot flow
-- Dashboard, threat map, attack console, countdown, incident creation
-- Containment, DDoS mitigation, progressive metrics, resolution and logs
-- Incident table/detail, intelligence, assets, simulations, analytics, reports, automation, settings
-- CyberAI text/voice controls and safe manual-confirmation behavior
-- Offline demo, CSV/JSON export, browser persistence, reduced motion
+- Aplicación React/TypeScript existente con rutas principales y shell responsive.
+- Cinco composiciones objetivo disponibles: dashboard, boot, mapa, mitigación y offline.
+- Zustand, TanStack Table, Recharts, react-simple-maps, Framer Motion y styled-components instalados.
+- Componentes fuente de logo, fondo, consola, loaders e icono de IA integrados o en adaptación.
+- Build de producción operativo y Playwright configurado a `1672 × 941`.
 
-## PARTIAL
+## Partial
 
-- Geographic map intentionally uses a restrained schematic sphere, graticule, nodes, and arcs without loading an external world dataset.
-- Settings controls are visually complete; only core demo/system settings affect global behavior.
-- Live log data is stored and updated, while a dedicated expanded log console is not surfaced on every route.
+- Design system: existen primitivas compartidas, pero botones, cards y variantes aún no están completos en todas las pantallas.
+- Ataques e incidentes: hay creación y controles parciales; falta cerrar todas las transiciones y consecuencias del flujo completo.
+- Mitigación: progreso, etapas, métricas y logs visibles; falta sincronizar resolución, activo, dashboard y notificación.
+- CyberAI: panel, texto, reconocimiento y síntesis existen; falta completar todos los comandos derivados de Zustand.
+- Visual QA: debe recalcularse sin ningún screenshot renderizado dentro de la app.
 
-## MISSING
+## Missing
 
-- Pixel-perfect automated comparison is pending because the supplied references arrived as chat images rather than files in `docs/references`; their visible composition, hierarchy, purple palette, faceted panels, map dominance, console placement, loader scale, and offline treatment were applied manually.
-- Official fonts, pending delivery.
-- PDF report export, explicitly reserved for later architecture.
+- Aceptación funcional automatizada del flujo completo sin refrescar.
+- Variantes y estados completos del design system descrito en la especificación.
+- Búsqueda global conectada a incidentes, IPs, activos y tipos.
+- Filtros completos de incidentes y preferencias de Settings conectadas.
+- División de rutas pesadas para reducir el bundle de producción.
+
+## Next implementation
+
+Completar el design system compartido y aplicar `CyberButton`/`CyberCard` a los controles prioritarios; después cerrar el motor Attack → Incident → Mitigation → Resolved con pruebas de navegador.
+

@@ -1,302 +1,94 @@
-import React from 'react';
+import { useState } from 'react';
+import { Play, TriangleAlert } from 'lucide-react';
 import styled from 'styled-components';
 
-const ExactAttackSwitch = () => {
-  return (
-    <StyledWrapper>
-      <div className="body">
-        <div className="launch-console">
-          <div className="console-header">
-            <p>SEQ-04 LAUNCH CTRL</p>
-            <p>HYD-IND | 04-SEP-2025 16:44</p>
+const ExactAttackSwitch = ({ buttonLabel = 'Iniciar ataque simulado', onLaunch }: { buttonLabel?: string; onLaunch?: () => void }) => {
+  const [launched, setLaunched] = useState(false);
+
+  const toggleSimulation = () => {
+    const next = !launched;
+    setLaunched(next);
+    if (next) onLaunch?.();
+  };
+
+  return <StyledWrapper>
+    <div className="cyber-attack-module">
+      <div className="module-body">
+        <div className="device-art" aria-hidden="true">
+          <span className="crystal shard-a"/><span className="crystal shard-b"/><span className="crystal shard-c"/>
+          <div className="device-shadow"/>
+          <div className="device-housing">
+            <i className="bolt bolt-a"/><i className="bolt bolt-b"/><i className="bolt bolt-c"/><i className="bolt bolt-d"/>
+            <div className={`launch-lamp ${launched ? 'is-active' : ''}`}/>
+            <small>LAUNCH</small>
           </div>
-          <input type="checkbox" id="arm-switch" />
-          <input type="checkbox" id="cover-switch" />
-          <input type="checkbox" id="launch-btn" />
-          <div className="interface">
-            <div className="status-panel">
-              <div className="light" id="power-light">
-                <div className="light-indicator" />
-                <span className="light-label">POWER</span>
-              </div>
-              <div className="light" id="armed-light">
-                <div className="light-indicator" />
-                <span className="light-label">ARMED</span>
-              </div>
-              <div className="light" id="launch-light">
-                <div className="light-indicator" />
-                <span className="light-label">LAUNCH</span>
-              </div>
-            </div>
-            <div className="action-panel">
-              <div className="arm-switch-container">
-                <span className="on">ON</span>
-                <label htmlFor="arm-switch" className="toggle-switch-label">
-                  <div className="toggle-lever" />
-                </label>
-                <span className="off">OFF</span>
-              </div>
-              <div className="launch-assembly">
-                <label htmlFor="launch-btn" className="launch-button" />
-                <label htmlFor="cover-switch" className="safety-cover" />
-              </div>
-            </div>
-          </div>
+          <div className="safety-lid"><i/><b/></div>
+        </div>
+        <div className="module-copy">
+          <div className="controlled"><TriangleAlert/><span>SIMULACIÓN<br/>CONTROLADA</span></div>
+          <p>Ejecuta un escenario de ataque para validar detecciones y respuestas.</p>
         </div>
       </div>
-    </StyledWrapper>
-  );
-}
+      <button className="simulation-trigger" type="button" onClick={toggleSimulation} aria-pressed={launched}>
+        <Play fill="currentColor"/>
+        <span>{launched ? 'Simulación iniciada' : buttonLabel}</span>
+        <b aria-hidden>›</b>
+      </button>
+    </div>
+  </StyledWrapper>;
+};
 
 const StyledWrapper = styled.div`
-  @keyframes pulse-red {
-    0%,
-    100% {
-      background: var(--launch-red);
-      box-shadow: 0 0 10px var(--launch-red);
-    }
-    50% {
-      background: #ff1f4e;
-      box-shadow: 0 0 20px 5px #ff1f4e;
-    }
-  }
+  width: 500px;
+  height: 332px;
 
-  .body {
-    --panel-color: #d1d1c8;
-    --panel-shadow: #b0b0a8;
-    --dark-grey: #4a4a4a;
-    --text-color: #2a2a2a;
-    --safe-green: #29a329;
-    --armed-amber: #ffc107;
-    --launch-red: #d90429;
+  .cyber-attack-module {
+    width: 500px;
+    height: 332px;
     display: grid;
-    place-content: center;
-    width: 100%;
-    height: 100%;
-    background: #3a3a3a;
-    font-family: "Roboto Condensed", sans-serif;
-  }
-  .launch-console {
-    width: 310px;
-    background: var(--panel-color);
-    border: 3px solid #1a1a1a;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow:
-      0 15px 25px rgba(0, 0, 0, 0.4),
-      inset 0 3px 5px rgba(255, 255, 255, 0.4);
-    display: grid;
-    grid-template-rows: auto 1fr;
-    gap: 20px;
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXVpaWl5eXlscHB6enp4eHhwcHCFhoaAgIB+fn53d3dLS0soKChPT09DQ0Nvb29zc3NwcHB9fX14eHhmZmb0VsS5AAAAFElEQVR42mP8/x8BEwMTAxMBcwATFGCAkP8P8xQAAAAASUVORK5CYII=");
-    background-blend-mode: multiply;
+    grid-template-rows: 240px 82px;
+    gap: 10px;
+    color: #f6f1ff;
+    font-family: var(--font-ui, Inter, sans-serif);
   }
 
-  .console-header {
-    text-align: center;
-    border-bottom: 2px solid var(--dark-grey);
-    padding-bottom: 15px;
-  }
-  .console-header h2 {
-    font-family: "Orbitron", sans-serif;
-    margin: 0 0 5px 0;
-    color: var(--text-color);
-    font-size: 20px;
-    letter-spacing: 1px;
-  }
-  .console-header p {
-    margin: 0;
-    font-size: 12px;
-    color: #666;
-  }
+  .module-body { display: grid; grid-template-columns: 246px 1fr; gap: 10px; }
+  .device-art { position: relative; height: 240px; display: grid; place-items: center; perspective: 560px; isolation: isolate; }
 
-  .interface {
-    display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: 20px;
-  }
+  .crystal { position: absolute; z-index: -2; display: block; background: linear-gradient(145deg,rgba(237,220,255,.83),rgba(131,54,239,.55) 44%,rgba(35,11,73,.08) 75%); border: 1px solid rgba(193,128,255,.38); filter: drop-shadow(0 0 10px rgba(129,45,231,.36)); }
+  .shard-a { width: 105px; height: 226px; left: 14px; top: 8px; clip-path: polygon(0 20%,64% 0,100% 32%,68% 65%,96% 100%,18% 83%); }
+  .shard-b { width: 151px; height: 153px; right: 2px; top: 25px; clip-path: polygon(26% 0,100% 24%,78% 62%,96% 98%,28% 82%,0 37%); opacity: .6; }
+  .shard-c { width: 208px; height: 73px; left: 18px; bottom: 6px; clip-path: polygon(0 36%,64% 0,100% 45%,72% 100%,20% 82%); opacity: .48; }
+  .device-shadow { position: absolute; left: 50%; bottom: 4px; width: 184px; height: 31px; transform: translateX(-50%); border-radius: 50%; background: #030309; filter: blur(12px); opacity: .85; }
 
-  .status-panel {
-    background: #c1c1b8;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-  }
-  .light {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .light-indicator {
-    width: 15px;
-    height: 15px;
-    background: radial-gradient(circle at 30% 30%, #888, #444);
-    border-radius: 50%;
-    border: 2px solid #2a2a2a;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-  }
-  .light-label {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--dark-grey);
-  }
+  .device-housing { position: absolute; left: 53px; bottom: 17px; width: 151px; height: 166px; border: 5px solid #363841; border-radius: 8px; background: repeating-linear-gradient(135deg,#d69e18 0 11px,#191a20 11px 22px); box-shadow: inset 0 0 0 10px #101117,inset 0 0 35px #000,0 15px 20px rgba(0,0,0,.7); transform: rotateX(3deg) rotateY(-2deg); }
+  .device-housing::before { content: ''; position: absolute; inset: 18px; border: 4px solid #444751; border-radius: 50%; background: radial-gradient(circle at 39% 30%,#ff8295 0 4%,#cc354c 24%,#9f1c34 50%,#4b0916 73%,#16050a 74%); box-shadow: inset 0 12px 14px rgba(255,255,255,.18),inset 0 -16px 17px rgba(0,0,0,.58),0 0 0 7px #111218,0 8px 12px #000,0 0 18px rgba(228,37,73,.25); }
+  .device-housing::after { content: ''; position: absolute; left: 48px; top: 39px; width: 30px; height: 16px; border-radius: 50%; background: rgba(255,255,255,.15); transform: rotate(-22deg); filter: blur(2px); }
+  .device-housing small { position: absolute; left: 50%; bottom: 3px; transform: translateX(-50%); color: #9898a4; font: 600 7px var(--font-mono,monospace); letter-spacing: .16em; }
 
-  .action-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-  }
+  .bolt { position: absolute; z-index: 3; width: 8px; height: 8px; border-radius: 50%; background: radial-gradient(circle at 32% 28%,#bec0c7,#555861 48%,#191a1f 53%); }
+  .bolt::after { content: ''; position: absolute; left: 1px; right: 1px; top: 3px; border-top: 1px solid #202126; transform: rotate(32deg); }
+  .bolt-a { left: 7px; top: 7px; }.bolt-b { right: 7px; top: 7px; }.bolt-c { left: 7px; bottom: 7px; }.bolt-d { right: 7px; bottom: 7px; }
+  .launch-lamp { position: absolute; inset: 19px; border-radius: 50%; transition: filter .2s,transform .12s; }
+  .launch-lamp.is-active { filter: brightness(1.35); transform: scale(.96); }
 
-  .arm-switch-container {
-    text-align: center;
-    position: relative;
-    width: 60px;
-    height: 80px;
-    background: var(--dark-grey);
-    border-radius: 5px;
-    padding-top: 5px;
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.4);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  .safety-lid { position: absolute; z-index: 5; left: 62px; top: 1px; width: 137px; height: 80px; transform-origin: 50% 100%; transform: rotateX(-51deg) skewX(-5deg); border: 5px solid #292a31; border-radius: 8px 8px 3px 3px; background: linear-gradient(152deg,#8c2033,#54101e 58%,#25080e); box-shadow: inset 0 5px rgba(255,255,255,.11),0 8px 9px rgba(0,0,0,.62),0 0 0 2px #101116; }
+  .safety-lid::before { content: ''; position: absolute; inset: 11px; border: 2px solid #9d3547; border-radius: 4px; background: linear-gradient(154deg,#6f1829,#2b090f); box-shadow: inset 0 5px 10px rgba(255,255,255,.05); }
+  .safety-lid i { position: absolute; z-index: 2; left: 44px; top: 19px; width: 39px; height: 28px; border-radius: 4px; background: linear-gradient(#282a31,#07080a); box-shadow: 0 0 0 3px #454750; }
+  .safety-lid b { position: absolute; z-index: 4; left: 50%; bottom: -9px; width: 45px; height: 12px; transform: translateX(-50%); border-radius: 3px; background: #15161b; box-shadow: 0 0 0 3px #3d4048; }
 
-  .arm-switch-container span {
-    font-size: 10px;
-    color: #ccc;
-    font-weight: 700;
-  }
-  .arm-switch-container span.on {
-    margin-bottom: 33px;
-  }
+  .module-copy { display: flex; min-width: 0; flex-direction: column; justify-content: center; gap: 17px; padding: 23px 9px 8px 0; }
+  .controlled { min-height: 66px; display: flex; align-items: center; gap: 13px; padding: 13px 15px; color: #ff5378; border: 1px solid rgba(255,57,102,.32); border-radius: 9px; background: rgba(92,22,50,.3); font-size: 16px; line-height: 1.35; font-weight: 600; }
+  .controlled svg { width: 33px; height: 33px; fill: currentColor; color: #ff5276; stroke: #541021; }
+  .module-copy p { margin: 0; padding: 0 12px; color: #b5adc5; font-size: 15px; line-height: 1.52; }
 
-  .toggle-switch-label {
-    position: absolute;
-    top: 25px;
-    left: 5px;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-    perspective: 200px;
-  }
-
-  .toggle-lever {
-    position: absolute;
-    width: 20px;
-    height: 40px;
-    background: linear-gradient(#e0e0e0, #b0b0b0);
-    border-radius: 3px;
-    left: 15px;
-    bottom: 0;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-    transform-origin: bottom center;
-    transition: transform 0.3s ease-in-out;
-  }
-
-  .launch-assembly {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    display: grid;
-    place-items: center;
-    perspective: 500px;
-  }
-
-  .launch-button {
-    width: 80px;
-    height: 80px;
-    background: #999;
-    border-radius: 50%;
-    cursor: not-allowed;
-    border: 5px solid #777;
-    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.4);
-  }
-
-  .safety-cover {
-    position: absolute;
-    width: 90px;
-    height: 90px;
-    background: repeating-linear-gradient(
-      45deg,
-      #ffc107,
-      #ffc107 15px,
-      #2a2a2a 15px,
-      #2a2a2a 30px
-    );
-    border-radius: 5px;
-    border: 3px solid #1a1a1a;
-    border-top: none;
-    transform-origin: top center;
-    transition: transform 0.4s ease-in-out;
-    cursor: not-allowed;
-  }
-  .safety-cover::before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 10px;
-    background: #333;
-    border-radius: 2px;
-    border: 2px solid #1a1a1a;
-  }
-
-  .launch-console input[type="checkbox"] {
-    display: none;
-  }
-
-  #arm-switch:checked ~ .interface .status-panel #power-light .light-indicator {
-    background: var(--safe-green);
-    box-shadow: 0 0 10px var(--safe-green);
-  }
-  #arm-switch:checked ~ .interface .action-panel .toggle-lever {
-    transform: rotateX(180deg);
-  }
-  #arm-switch:checked ~ .interface .action-panel .safety-cover {
-    cursor: pointer;
-  }
-  #arm-switch:checked ~ .interface .status-panel #armed-light .light-indicator {
-    background: var(--armed-amber);
-    box-shadow: 0 0 10px var(--armed-amber);
-  }
-
-  #arm-switch:checked
-    + #cover-switch:checked
-    ~ .interface
-    .action-panel
-    .safety-cover {
-    transform: rotateX(-160deg);
-  }
-  #arm-switch:checked
-    + #cover-switch:checked
-    ~ .interface
-    .action-panel
-    .launch-button {
-    background: var(--launch-red);
-    border-color: #a1031d;
-    cursor: pointer;
-  }
-
-  .launch-button:active {
-    transform: scale(0.95);
-    box-shadow: inset 0 8px 12px rgba(0, 0, 0, 0.5);
-  }
-  #arm-switch:checked
-    + #cover-switch:checked
-    + #launch-btn:checked
-    ~ .interface
-    .status-panel
-    #launch-light
-    .light-indicator {
-    animation: pulse-red 1s infinite;
-  }`;
+  .simulation-trigger { position: relative; height: 82px; display: flex; align-items: center; justify-content: center; gap: 20px; overflow: hidden; color: #fff; border: 2px solid #bd83ff; background: linear-gradient(180deg,#8b45f0 0,#6321c9 56%,#42108e 100%); clip-path: polygon(28px 0,calc(100% - 28px) 0,100% 50%,calc(100% - 28px) 100%,28px 100%,0 50%); box-shadow: inset 0 0 24px #d59aff,inset 0 4px rgba(255,255,255,.22),0 0 22px rgba(122,48,235,.62); font-size: 24px; font-weight: 600; cursor: pointer; }
+  .simulation-trigger::before,.simulation-trigger::after { content: ''; position: absolute; inset: 7px 18px; opacity: .55; background: linear-gradient(115deg,transparent 18%,rgba(255,255,255,.32) 19% 28%,transparent 29% 48%,rgba(255,255,255,.17) 49% 61%,transparent 62%); clip-path: polygon(8% 0,100% 0,92% 100%,0 100%); }
+  .simulation-trigger::after { transform: scaleX(-1); opacity: .26; }
+  .simulation-trigger > * { position: relative; z-index: 2; }
+  .simulation-trigger svg { width: 32px; height: 32px; }
+  .simulation-trigger b { position: absolute; right: 27px; font-size: 30px; color: #c699ff; }
+  .simulation-trigger:hover { filter: brightness(1.12); }
+`;
 
 export default ExactAttackSwitch;
-

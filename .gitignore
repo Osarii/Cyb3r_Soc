@@ -1,6 +1,11 @@
 node_modules/
 dist/
 .qa/
+.npm-cache/
+test-results/
+playwright-report/
+tests/visual/current/
+Cyb3r_Soc_References_1to1/
 
 *.tsbuildinfo
 *.log

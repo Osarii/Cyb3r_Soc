@@ -2,4 +2,15 @@
 @media(max-width:1100px){.ref-map-page{height:auto;overflow:auto}.ref-map-kpis{grid-template-columns:repeat(2,1fr);height:auto}.ref-map-workspace{grid-template-columns:1fr;height:auto}.ref-map-stage{height:520px}.ref-map-console{height:500px}.ref-map-bottom{grid-template-columns:1fr;height:auto}.ref-map-bottom>section{min-height:210px}.ref-map-title{height:auto;align-items:flex-start;gap:10px;margin:10px 0}.period-tabs{display:none}}
 @media(max-width:700px){.ref-map-kpis{grid-template-columns:1fr}.ref-map-title h1{font-size:23px}.ref-map-workspace{display:block}.ref-map-stage{height:430px}.place-label{display:none}.ref-map-console{margin-top:10px}.ref-map-bottom{display:block}.ref-map-bottom>section{margin-top:10px}.mini-th,.mini-tr{grid-template-columns:55px 65px 1fr 65px}.mini-th span:nth-child(3),.mini-tr span:nth-child(3),.mini-th span:nth-child(4),.mini-tr span:nth-child(4){display:none}}
 .quick-actions a{border:0;border-right:1px solid #342a46;background:rgba(21,17,32,.7);color:#b968ff;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}.quick-actions a svg{width:22px}.quick-actions a b{font-size:9px;color:#eee}.quick-actions a small{font-size:7px;color:#8c8298;text-align:center}
-.map-exact-attack{width:500px;height:390px;transform:scale(.52);transform-origin:top center;margin-left:-92px}.map-exact-attack .body{background:#14121b!important}.map-exact-attack .launch-console{--panel-color:#28232e!important;--panel-shadow:#100e14!important;--dark-grey:#0e0c12!important;--text-color:#f1eaf8!important;background-color:#28232e!important}.map-exact-attack .console-header p,.map-exact-attack .light-label{color:#eee8f5!important}.map-exact-attack .status-panel{background:#15121a!important}
+.map-exact-attack{width:500px;height:332px;transform:scale(.7);transform-origin:top center;margin-left:-72px}
+
+@media(min-width:1101px){
+  .ref-map-page{padding-left:11px;padding-right:23px}
+  .ref-map-title>div:first-child{transform:translateY(-8px)}
+  .period-tabs{transform:translateY(18px)}
+  .ref-map-workspace{height:432px;margin-top:17px;grid-template-columns:minmax(650px,1fr) 373px}
+  .world-stage{height:374px}
+  .ref-map-console{height:624px;position:relative;z-index:4}
+  .console-slot{height:255px}
+  .ref-map-bottom{width:calc(100% - 383px);margin-top:11px}
+}

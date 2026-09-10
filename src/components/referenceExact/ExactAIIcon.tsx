@@ -45,10 +45,10 @@ const ExactAIIcon = () => {
 
 const StyledWrapper = styled.div`
   .loader {
-    --color-one: red;
-    --color-two: blue;
-    --color-three: yellow;
-    --color-fore: cyan;
+    --color-one: #3a19c8;
+    --color-two: #176fe0;
+    --color-three: #9848f3;
+    --color-fore: #7e45ef;
     --color-five: white;
     --time-animation: 1s;
     --size: 100px;
@@ -71,8 +71,8 @@ const StyledWrapper = styled.div`
     background: radial-gradient(
       circle at 80% 20%,
       rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 0.8) 20%,
-      rgba(255, 255, 255, 0.4) 50%,
+      rgba(220, 196, 255, 0.86) 18%,
+      rgba(120, 79, 239, 0.42) 48%,
       rgba(255, 255, 255, 0) 70%
     );
   }
@@ -111,7 +111,7 @@ const StyledWrapper = styled.div`
         rgba(255, 255, 255, 0.5) 30%,
         rgba(255, 255, 255, 0) 70%
       ),
-      linear-gradient(120deg, var(--color-one) 20%, var(--color-two) 80%);
+      linear-gradient(120deg, var(--color-one) 12%, var(--color-two) 54%, #9f43f3 88%);
     animation:
       rotation calc(var(--time-animation) * 2) linear infinite,
       colorblur calc(var(--time-animation) * 2) ease-in-out infinite;

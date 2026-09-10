@@ -1,12 +1,20 @@
 {
-  "name": "cybersoc",
+  "name": "cyb3r_soc",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "scripts": { "dev": "vite", "build": "tsc -b && vite build", "preview": "vite preview" },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "capture:visual": "node scripts/capture-visuals.mjs",
+    "test:visual": "playwright test tests/visual/cyb3r_soc.visual.spec.ts",
+    "test:responsive": "playwright test tests/visual/cyb3r_soc.responsive.spec.ts"
+  },
   "dependencies": {
     "@radix-ui/react-dialog": "latest",
     "@tanstack/react-table": "^8.21.3",
+    "d3-geo": "latest",
     "framer-motion": "latest",
     "lucide-react": "latest",
     "react": "latest",
@@ -16,9 +24,16 @@
     "recharts": "latest",
     "sonner": "latest",
     "styled-components": "latest",
-    "zustand": "latest",
-    "d3-geo": "latest",
-    "world-atlas": "^2.0.2"
+    "world-atlas": "^2.0.2",
+    "zustand": "latest"
   },
-  "devDependencies": { "@types/react": "latest", "@types/react-dom": "latest", "@types/d3-geo": "latest", "@vitejs/plugin-react": "latest", "typescript": "latest", "vite": "latest" }
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/d3-geo": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "typescript": "latest",
+    "vite": "latest"
+  }
 }
