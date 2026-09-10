@@ -1,0 +1,301 @@
+import React from 'react';
+import styled from 'styled-components';
+
+const Switch = () => {
+  return (
+    <StyledWrapper>
+      <div className="body">
+        <div className="launch-console">
+          <div className="console-header">
+            <p>SEQ-04 LAUNCH CTRL</p>
+            <p>HYD-IND | 04-SEP-2025 16:44</p>
+          </div>
+          <input type="checkbox" id="arm-switch" />
+          <input type="checkbox" id="cover-switch" />
+          <input type="checkbox" id="launch-btn" />
+          <div className="interface">
+            <div className="status-panel">
+              <div className="light" id="power-light">
+                <div className="light-indicator" />
+                <span className="light-label">POWER</span>
+              </div>
+              <div className="light" id="armed-light">
+                <div className="light-indicator" />
+                <span className="light-label">ARMED</span>
+              </div>
+              <div className="light" id="launch-light">
+                <div className="light-indicator" />
+                <span className="light-label">LAUNCH</span>
+              </div>
+            </div>
+            <div className="action-panel">
+              <div className="arm-switch-container">
+                <span className="on">ON</span>
+                <label htmlFor="arm-switch" className="toggle-switch-label">
+                  <div className="toggle-lever" />
+                </label>
+                <span className="off">OFF</span>
+              </div>
+              <div className="launch-assembly">
+                <label htmlFor="launch-btn" className="launch-button" />
+                <label htmlFor="cover-switch" className="safety-cover" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </StyledWrapper>
+  );
+}
+
+const StyledWrapper = styled.div`
+  @keyframes pulse-red {
+    0%,
+    100% {
+      background: var(--launch-red);
+      box-shadow: 0 0 10px var(--launch-red);
+    }
+    50% {
+      background: #ff1f4e;
+      box-shadow: 0 0 20px 5px #ff1f4e;
+    }
+  }
+
+  .body {
+    --panel-color: #d1d1c8;
+    --panel-shadow: #b0b0a8;
+    --dark-grey: #4a4a4a;
+    --text-color: #2a2a2a;
+    --safe-green: #29a329;
+    --armed-amber: #ffc107;
+    --launch-red: #d90429;
+    display: grid;
+    place-content: center;
+    width: 100%;
+    height: 100%;
+    background: #3a3a3a;
+    font-family: "Roboto Condensed", sans-serif;
+  }
+  .launch-console {
+    width: 310px;
+    background: var(--panel-color);
+    border: 3px solid #1a1a1a;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow:
+      0 15px 25px rgba(0, 0, 0, 0.4),
+      inset 0 3px 5px rgba(255, 255, 255, 0.4);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 20px;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXVpaWl5eXlscHB6enp4eHhwcHCFhoaAgIB+fn53d3dLS0soKChPT09DQ0Nvb29zc3NwcHB9fX14eHhmZmb0VsS5AAAAFElEQVR42mP8/x8BEwMTAxMBcwATFGCAkP8P8xQAAAAASUVORK5CYII=");
+    background-blend-mode: multiply;
+  }
+
+  .console-header {
+    text-align: center;
+    border-bottom: 2px solid var(--dark-grey);
+    padding-bottom: 15px;
+  }
+  .console-header h2 {
+    font-family: "Orbitron", sans-serif;
+    margin: 0 0 5px 0;
+    color: var(--text-color);
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .console-header p {
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+  }
+
+  .interface {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 20px;
+  }
+
+  .status-panel {
+    background: #c1c1b8;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .light {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .light-indicator {
+    width: 15px;
+    height: 15px;
+    background: radial-gradient(circle at 30% 30%, #888, #444);
+    border-radius: 50%;
+    border: 2px solid #2a2a2a;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+  }
+  .light-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark-grey);
+  }
+
+  .action-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .arm-switch-container {
+    text-align: center;
+    position: relative;
+    width: 60px;
+    height: 80px;
+    background: var(--dark-grey);
+    border-radius: 5px;
+    padding-top: 5px;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .arm-switch-container span {
+    font-size: 10px;
+    color: #ccc;
+    font-weight: 700;
+  }
+  .arm-switch-container span.on {
+    margin-bottom: 33px;
+  }
+
+  .toggle-switch-label {
+    position: absolute;
+    top: 25px;
+    left: 5px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    perspective: 200px;
+  }
+
+  .toggle-lever {
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    background: linear-gradient(#e0e0e0, #b0b0b0);
+    border-radius: 3px;
+    left: 15px;
+    bottom: 0;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    transform-origin: bottom center;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .launch-assembly {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: grid;
+    place-items: center;
+    perspective: 500px;
+  }
+
+  .launch-button {
+    width: 80px;
+    height: 80px;
+    background: #999;
+    border-radius: 50%;
+    cursor: not-allowed;
+    border: 5px solid #777;
+    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  .safety-cover {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    background: repeating-linear-gradient(
+      45deg,
+      #ffc107,
+      #ffc107 15px,
+      #2a2a2a 15px,
+      #2a2a2a 30px
+    );
+    border-radius: 5px;
+    border: 3px solid #1a1a1a;
+    border-top: none;
+    transform-origin: top center;
+    transition: transform 0.4s ease-in-out;
+    cursor: not-allowed;
+  }
+  .safety-cover::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 10px;
+    background: #333;
+    border-radius: 2px;
+    border: 2px solid #1a1a1a;
+  }
+
+  .launch-console input[type="checkbox"] {
+    display: none;
+  }
+
+  #arm-switch:checked ~ .interface .status-panel #power-light .light-indicator {
+    background: var(--safe-green);
+    box-shadow: 0 0 10px var(--safe-green);
+  }
+  #arm-switch:checked ~ .interface .action-panel .toggle-lever {
+    transform: rotateX(180deg);
+  }
+  #arm-switch:checked ~ .interface .action-panel .safety-cover {
+    cursor: pointer;
+  }
+  #arm-switch:checked ~ .interface .status-panel #armed-light .light-indicator {
+    background: var(--armed-amber);
+    box-shadow: 0 0 10px var(--armed-amber);
+  }
+
+  #arm-switch:checked
+    + #cover-switch:checked
+    ~ .interface
+    .action-panel
+    .safety-cover {
+    transform: rotateX(-160deg);
+  }
+  #arm-switch:checked
+    + #cover-switch:checked
+    ~ .interface
+    .action-panel
+    .launch-button {
+    background: var(--launch-red);
+    border-color: #a1031d;
+    cursor: pointer;
+  }
+
+  .launch-button:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 8px 12px rgba(0, 0, 0, 0.5);
+  }
+  #arm-switch:checked
+    + #cover-switch:checked
+    + #launch-btn:checked
+    ~ .interface
+    .status-panel
+    #launch-light
+    .light-indicator {
+    animation: pulse-red 1s infinite;
+  }`;
+
+export default Switch;

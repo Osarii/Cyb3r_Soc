@@ -1,0 +1,24 @@
+{
+  "name": "cybersoc",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": { "dev": "vite", "build": "tsc -b && vite build", "preview": "vite preview" },
+  "dependencies": {
+    "@radix-ui/react-dialog": "latest",
+    "@tanstack/react-table": "^8.21.3",
+    "framer-motion": "latest",
+    "lucide-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router-dom": "latest",
+    "react-simple-maps": "latest",
+    "recharts": "latest",
+    "sonner": "latest",
+    "styled-components": "latest",
+    "zustand": "latest",
+    "d3-geo": "latest",
+    "world-atlas": "^2.0.2"
+  },
+  "devDependencies": { "@types/react": "latest", "@types/react-dom": "latest", "@types/d3-geo": "latest", "@vitejs/plugin-react": "latest", "typescript": "latest", "vite": "latest" }
+}
