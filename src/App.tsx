@@ -8,6 +8,8 @@ import { DDoSMitigationScreenV2, InitialBootScreenV2, ServerUnavailableV2 } from
 import { IncidentDetail, Incidents } from './pages/Incidents';
 import { Analytics, Assets, Automation, Intelligence, Reports, Settings, Simulations } from './pages/OtherPages';
 import { mitigationFixture } from './data/fixtures/mitigation.fixture';
+import { useDocumentVisible } from './hooks/useAnimationActivity';
+import { useVisualTestMode } from './config/visualTest';
 
 function Framed({ children }: { children: ReactNode }) {
   const location = useLocation();
@@ -21,13 +23,14 @@ function MitigationRoute({ visualTest = false }: { visualTest?: boolean }) {
   const resolveAttack = useSOCStore(state => state.resolveAttack);
   const attack = attacks.find(item => item.incidentId === incidentId) ?? attacks.at(-1);
   const resolved = useRef(false);
+  const documentVisible = useDocumentVisible();
   const [progress,setProgress] = useState(visualTest ? mitigationFixture.progress : 0);
   const [paused,setPaused] = useState(false);
   useEffect(() => {
-    if (visualTest || paused) return;
+    if (visualTest || paused || !documentVisible) return;
     const timer = window.setInterval(() => setProgress(value => Math.min(100,value+1)), 95);
     return () => window.clearInterval(timer);
-  }, [paused, visualTest]);
+  }, [paused, visualTest, documentVisible]);
   useEffect(() => {
     if (visualTest || progress < 100 || !attack || resolved.current) return;
     resolved.current = true;
@@ -40,11 +43,12 @@ function MitigationRoute({ visualTest = false }: { visualTest?: boolean }) {
 export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
-  const visualTest = new URLSearchParams(location.search).get('visualTest') === 'true';
+  const visualTest = useVisualTestMode();
   const systemStatus = useSOCStore(s=>s.systemStatus);
   const setSystemStatus = useSOCStore(s=>s.setSystemStatus);
   const [booting,setBooting] = useState(() => !visualTest && sessionStorage.getItem('cyb3r_soc_initialized') !== 'true');
   const [bootProgress,setBootProgress] = useState(3);
+  const documentVisible = useDocumentVisible();
 
   useEffect(() => {
     if (visualTest) document.documentElement.dataset.visualTest = 'true';
@@ -53,7 +57,12 @@ export default function App() {
   }, [visualTest]);
 
   useEffect(() => {
-    if (!booting) return;
+    document.documentElement.dataset.pageHidden = String(!documentVisible);
+    return () => { delete document.documentElement.dataset.pageHidden; };
+  }, [documentVisible]);
+
+  useEffect(() => {
+    if (!booting || !documentVisible) return;
     const timer = window.setInterval(() => setBootProgress(value => {
       const next = Math.min(100,value+1);
       if (next === 100) {
@@ -66,7 +75,7 @@ export default function App() {
       return next;
     }), 36);
     return () => window.clearInterval(timer);
-  }, [booting]);
+  }, [booting, documentVisible]);
 
   if (booting) return <InitialBootScreenV2 progress={bootProgress} onSkip={()=>{sessionStorage.setItem('cyb3r_soc_initialized','true');setBooting(false)}}/>;
   if (systemStatus === 'OFFLINE') return <ServerUnavailableV2 onRetry={()=>setSystemStatus('ONLINE')} onBack={()=>{setSystemStatus('ONLINE');navigate('/dashboard')}}/>;

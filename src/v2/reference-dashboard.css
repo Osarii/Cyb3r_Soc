@@ -274,7 +274,7 @@
   justify-content: space-between;
   padding: 0 25px 0 20px;
   background: rgba(9, 10, 24, 0.82);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(8px);
 }
 
 .reference-topbar::after {
@@ -758,3 +758,114 @@
 .rd-nav a.is-active::before { left: 0; top: 6px; width: 3px; height: 32px; border-radius: 0; }
 .rd-assistant { right: 23px; }
 .rd-assistant-bubble { min-width: 148px; clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px); border-radius: 0; }
+
+/* Dashboard density normalization: retain the reference composition while
+   fitting the operational overview comfortably at native browser zoom. */
+@media (min-width: 981px) {
+  .reference-sidebar { width: 228px; padding:18px 12px; }
+  .rd-space-background::after { left:228px; }
+  .rd-brand { height:66px; gap:10px; padding:0 7px 5px 5px; }
+  .rd-brand-mark,
+  .rd-exact-brand { --mark-size:46px; }
+  .rd-brand-copy strong { font-size:23px; }
+  .rd-brand-copy small { margin-top:6px; font-size:6.3px; }
+  .rd-nav-primary { margin-top:17px; }
+  .rd-nav a { height:38px; gap:12px; padding:0 12px; font-size:12px; }
+  .rd-nav a svg { width:16px; height:16px; }
+  .rd-nav a.is-active::before { top:5px; height:28px; }
+  .rd-nav-divider { margin:12px 4px 10px; }
+  .rd-nav a em { width:23px; height:20px; font-size:9px; }
+  .rd-soc-status { min-height:48px; gap:10px; padding:8px 11px; }
+  .rd-soc-status > i { width:8px; height:8px; }
+  .rd-soc-status strong { font-size:10px; }
+  .rd-soc-status small { font-size:8px; }
+
+  .reference-topbar { left:228px; height:56px; padding:0 18px 0 15px; }
+  .rd-global-search { width:min(520px, 42vw); height:34px; gap:9px; padding:0 9px; }
+  .rd-global-search input { font-size:11px; }
+  .rd-global-search kbd { padding:4px 6px; font-size:9px; }
+  .rd-top-actions { gap:8px; }
+  .rd-top-actions > button:not(.rd-operations-state),
+  .rd-mobile-menu { width:34px; height:34px; }
+  .rd-top-divider { height:32px; }
+  .rd-operations-state { width:184px; height:42px; gap:8px; padding:0 10px; }
+  .rd-operations-state strong { font-size:10px; }
+  .rd-operations-state small { font-size:8px; }
+  .rd-user-avatar { width:36px; height:36px; font-size:10px; }
+
+  .reference-main { margin-left:228px; padding-top:56px; }
+  .reference-dashboard { min-height:calc(100vh - 56px); padding:10px 14px 14px; }
+  .rd-dashboard-heading { height:70px; padding:3px 3px 0; }
+  .rd-dashboard-heading > div > span { font-size:8px; }
+  .rd-dashboard-heading h1 { margin:5px 0 1px; font-size:24px; }
+  .rd-dashboard-heading p { font-size:11px; }
+  .rd-dashboard-heading blockquote { margin-top:10px; font-size:10px; }
+  .rd-dashboard-heading blockquote small { margin-top:5px; font-size:9px; }
+
+  .rd-stats-grid { gap:10px; margin-bottom:10px; }
+  .rd-stat { height:68px; grid-template-columns:50px minmax(88px, 1fr) 74px; gap:9px; padding:8px 10px 8px 8px; }
+  .rd-stat-icon { width:50px; height:50px; }
+  .rd-stat-icon svg { width:24px; height:24px; }
+  .rd-stat-copy { gap:4px; }
+  .rd-stat-copy > small { font-size:9px; }
+  .rd-stat-copy > span { gap:8px; }
+  .rd-stat-copy strong { font-size:21px; }
+  .rd-stat-copy em { font-size:8px; }
+  .rd-sparkline { width:74px; height:38px; }
+
+  .rd-dashboard-grid { grid-template-columns:minmax(0, 1fr) 318px; grid-template-rows:336px 202px; gap:10px; }
+  .rd-dashboard-side { grid-template-rows:236px 236px; gap:10px; padding-top:0; }
+  .rd-dashboard-lower { grid-template-columns:minmax(0, 1.18fr) minmax(330px, 1fr); gap:10px; }
+  .rd-section-header { height:50px; gap:9px; padding:0 12px; }
+  .rd-section-symbol { width:23px; height:23px; }
+  .rd-section-title { gap:3px; }
+  .rd-section-title strong { font-size:12px; }
+  .rd-section-title small { font-size:9px; }
+  .rd-map-filters { gap:8px; }
+  .rd-map-filters button,
+  .rd-analytics header button { height:27px; gap:9px; padding:0 9px; font-size:8px; }
+  .rd-map-canvas { height:calc(100% - 50px); }
+  .rd-map-legend { left:10px; bottom:9px; width:132px; gap:5px; padding:8px 9px; font-size:7px; }
+  .rd-map-controls { top:10px; right:10px; }
+  .rd-map-controls button { width:30px; height:29px; }
+
+  .rd-attack-card .rd-section-header { height:49px; }
+  .rd-exact-attack { height:176px; }
+  .rd-exact-attack > div { transform:scale(.52) !important; }
+  .rd-compact-header { height:40px; padding:0 11px; }
+  .rd-compact-header .rd-section-title strong { font-size:11px; }
+  .rd-intel-list { padding:0 11px 3px; }
+  .rd-intel-list article { min-height:36px; grid-template-columns:10px minmax(0, 1fr) 29px; gap:7px; }
+  .rd-feed-dot { width:7px; height:7px; }
+  .rd-intel-list article strong { font-size:8px; }
+  .rd-intel-list article small,
+  .rd-intel-list time { font-size:7px; }
+
+  .rd-incident-table { padding:0 9px 5px; }
+  .rd-incident-row { min-height:27px; grid-template-columns:61px 40px minmax(112px, 1.35fr) 68px 64px 61px 18px; gap:5px; font-size:7px; }
+  .rd-incident-head { min-height:23px; font-size:6px; }
+  .rd-severity { gap:5px; }
+  .rd-severity i { width:6px; height:6px; }
+  .rd-incident-state { padding:3px 5px; font-size:6px; }
+  .rd-analytics-body { height:calc(100% - 40px); gap:6px; padding:7px; }
+  .rd-threat-types,
+  .rd-trend-chart { padding:8px; }
+  .rd-threat-types > small,
+  .rd-trend-chart > small { font-size:7px; }
+  .rd-donut-row { grid-template-columns:76px minmax(70px, 1fr); gap:7px; }
+  .rd-donut { width:72px; height:72px; }
+  .rd-donut::after { width:45px; height:45px; }
+  .rd-donut strong { font-size:11px; }
+  .rd-donut-row ul { gap:6px; }
+  .rd-donut-row li { grid-template-columns:6px 1fr auto; gap:4px; font-size:6px; }
+  .rd-donut-row li i { width:6px; height:6px; }
+  .rd-bars { gap:3px; padding-top:13px; }
+  .rd-bars > span > i { width:7px; max-height:72px; }
+  .rd-bars > span > small { height:21px; margin-top:3px; font-size:6px; }
+
+  .reference-dashboard > .cyber-ai { gap:5px; }
+  .reference-dashboard > .cyber-ai .ai-orb { width:82px; height:82px; }
+  .reference-dashboard > .cyber-ai .ai-orb > div { width:86px; height:86px; transform:scale(.80); }
+  .reference-dashboard > .cyber-ai .cyber-ai-tooltip { min-width:128px; height:46px; padding:0 10px; font-size:8px; }
+  .reference-dashboard > .cyber-ai .ai-panel { bottom:92px; }
+}

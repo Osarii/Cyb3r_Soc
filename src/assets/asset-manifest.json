@@ -1,0 +1,78 @@
+{
+  "ai/cyberai-idle.webm": {
+    "kb": 135.6,
+    "mb": 0.132
+  },
+  "ai/cyberai-speaking.webm": {
+    "kb": 272.9,
+    "mb": 0.266
+  },
+  "ai/cyberai-listening.webm": {
+    "kb": 222.1,
+    "mb": 0.217
+  },
+  "ai/cyberai-orb-static.webp": {
+    "kb": 68.3,
+    "mb": 0.067
+  },
+  "ai/cyberai-thinking.webm": {
+    "kb": 351.6,
+    "mb": 0.343
+  },
+  "ddos/ddos-interceptor-loop.webm": {
+    "kb": 228.9,
+    "mb": 0.224
+  },
+  "ddos/ddos-interceptor-static.webp": {
+    "kb": 62.4,
+    "mb": 0.061
+  },
+  "decorations/crystal-cluster-static.webp": {
+    "kb": 50.0,
+    "mb": 0.049
+  },
+  "decorations/radar-loop.webm": {
+    "kb": 62.7,
+    "mb": 0.061
+  },
+  "decorations/security-shield-static.webp": {
+    "kb": 56.6,
+    "mb": 0.055
+  },
+  "decorations/security-shield-loop.webm": {
+    "kb": 130.6,
+    "mb": 0.128
+  },
+  "decorations/crystal-cluster-loop.webm": {
+    "kb": 91.6,
+    "mb": 0.089
+  },
+  "decorations/radar-static.webp": {
+    "kb": 78.3,
+    "mb": 0.076
+  },
+  "offline/server-cube-static.webp": {
+    "kb": 88.6,
+    "mb": 0.087
+  },
+  "offline/server-cube-loop.webm": {
+    "kb": 276.9,
+    "mb": 0.27
+  },
+  "branding/cybersoc-logo-static-small.webp": {
+    "kb": 7.9,
+    "mb": 0.008
+  },
+  "branding/cybersoc-logo-static.webp": {
+    "kb": 83.7,
+    "mb": 0.082
+  },
+  "branding/cybersoc-logo-loop.webm": {
+    "kb": 294.4,
+    "mb": 0.288
+  },
+  "branding/cybersoc-logo-loop-small.webm": {
+    "kb": 65.8,
+    "mb": 0.064
+  }
+}

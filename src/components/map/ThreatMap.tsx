@@ -1,8 +1,10 @@
-import { useId } from 'react';
+import { memo, useId, useMemo, useRef } from 'react';
 import { ComposableMap, Geographies, Geography, Graticule, ZoomableGroup } from 'react-simple-maps';
 import { geoNaturalEarth1 } from 'd3-geo';
 import { useSOCStore } from '../../app/store/useSOCStore';
 import geography from 'world-atlas/countries-110m.json';
+import { useAnimationActivity } from '../../hooks/useAnimationActivity';
+import { useVisualTestMode } from '../../config/visualTest';
 
 const projection = geoNaturalEarth1().center([0,18]).scale(168).translate([500,190]);
 const cities: {name:string;position:[number,number];source:boolean;offset:[number,number]}[] = [
@@ -22,12 +24,15 @@ const demo = [
 ];
 
 /** Geographic, code-driven trajectories; no screenshot is used as a map. */
-export function ThreatMap({compact=false}:{compact?:boolean}) {
+export const ThreatMap = memo(function ThreatMap({compact=false}:{compact?:boolean}) {
   const attacks=useSOCStore(s=>s.attacks);
-  const routes=attacks.length?attacks:demo;
+  const routes=useMemo(()=>attacks.length?attacks:demo,[attacks]);
   const id=useId().replace(/:/g,'');
-  const frozen=new URLSearchParams(window.location.search).get('visualTest')==='true'||window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  return <div className={`threat-map ${compact?'compact':''}`}>
+  const rootRef=useRef<HTMLDivElement>(null);
+  const visualTest=useVisualTestMode();
+  const animationActive=useAnimationActivity(rootRef);
+  const frozen=visualTest||!animationActive;
+  return <div ref={rootRef} className={`threat-map ${compact?'compact':''} ${frozen?'map-animation-paused':''}`}>
     <ComposableMap width={1000} height={380} projection="geoNaturalEarth1" projectionConfig={{center:[0,18],scale:168}}>
       <defs>
         <pattern id={`${id}-land`} width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#301b47"/><circle cx="1" cy="2" r=".65" fill="#995aca" opacity=".7"/><circle cx="5" cy="5" r=".35" fill="#b08add"/></pattern>
@@ -58,4 +63,4 @@ export function ThreatMap({compact=false}:{compact?:boolean}) {
     </ComposableMap>
     <div className="map-legend"><span><i className="critical"/>ATAQUE EN CURSO</span><span><i/>TRÁFICO SOSPECHOSO</span><b>{routes.length} trayectorias</b></div>
   </div>;
-}
+});

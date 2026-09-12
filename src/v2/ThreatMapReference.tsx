@@ -7,6 +7,8 @@ import { CyberAssistant } from './DashboardReference';
 import { Link } from 'react-router-dom';
 import { threatMapFixture } from '../data/fixtures/threatMap.fixture';
 import './threat-map-reference.css';
+import radarDecoration from '../assets/decorations/radar-static.webp';
+import shieldDecoration from '../assets/decorations/security-shield-static.webp';
 
 const events = [
   ['10:24:12','DDoS','185.199.110.23','203.0.113.10','Tráfico anómalo','En curso'],
@@ -38,7 +40,7 @@ export function ThreatMapReferenceContent({ visualTest = false }: { visualTest?:
     <div className="ref-map-workspace">
       <section className="ref-panel ref-map-stage">
         <div className="ref-panel-head"><div className="mini-star">✦</div><div><b>Mapa de amenazas en tiempo real</b><small>Ataques y actividad global detectada por Cyb3r_Soc</small></div><div className="map-filters"><button>Últimas 24 horas⌄</button><button>Todas las amenazas⌄</button></div></div>
-        <div className="world-stage"><ThreatMap/><div className="place-label sf">San Francisco, US<small>Origen de ataque</small></div><div className="place-label london">Londres, UK<small>Destino</small></div><div className="place-label moscow">Moscú, RU<small>Origen de ataque</small></div><div className="place-label bogota">Bogotá, CO<small>Origen de ataque</small></div><div className="place-label shanghai">Shanghái, CN<small>Origen de ataque</small></div><div className="place-label sydney">Sidney, AU<small>Destino</small></div><div className="map-controls"><button>＋</button><button>−</button><button>⌾</button></div><div className="type-legend"><b>✹ &nbsp; Tipos de ataque</b>{chart.slice(0,5).map(x=><span key={x.name}><i style={{background:x.color}}/>{x.name}</span>)}</div><div className="view-tabs">Vista: <b>Ataques</b><span>Tráfico</span><span>Riesgo</span></div></div>
+        <div className="world-stage"><ThreatMap/><img className="map-radar-decoration" src={radarDecoration} alt="" aria-hidden="true"/><div className="place-label sf">San Francisco, US<small>Origen de ataque</small></div><div className="place-label london">Londres, UK<small>Destino</small></div><div className="place-label moscow">Moscú, RU<small>Origen de ataque</small></div><div className="place-label bogota">Bogotá, CO<small>Origen de ataque</small></div><div className="place-label shanghai">Shanghái, CN<small>Origen de ataque</small></div><div className="place-label sydney">Sidney, AU<small>Destino</small></div><div className="map-controls"><button>＋</button><button>−</button><button>⌾</button></div><div className="type-legend"><b>✹ &nbsp; Tipos de ataque</b>{chart.slice(0,5).map(x=><span key={x.name}><i style={{background:x.color}}/>{x.name}</span>)}</div><div className="view-tabs">Vista: <b>Ataques</b><span>Tráfico</span><span>Riesgo</span></div></div>
       </section>
       <aside className="ref-map-console ref-panel">
         <div className="ref-panel-head"><div className="mini-star">✦</div><div><b>Simulación de ataque</b><small>Prueba la preparación de tu entorno</small></div></div>
@@ -50,7 +52,7 @@ export function ThreatMapReferenceContent({ visualTest = false }: { visualTest?:
     <div className="ref-map-bottom">
       <MiniTable title="Actividad en tiempo real" rows={events}/>
       <section className="ref-panel origin-table"><div className="small-head"><b>Top orígenes de ataque</b><span>Ver todos ›</span></div>{origins.map(r=><div className="origin-row" key={r[1]}><span>{r[0]} {r[1]}</span><span>{r[2]}</span><span>{r[3]}</span><span>{r[4]} <i/></span></div>)}</section>
-      <section className="ref-panel type-chart"><div className="small-head"><b>Tipos de ataque</b><span>Últimas 24 horas⌄</span></div><div className="donut"><ResponsiveContainer><PieChart><Pie data={chart} dataKey="value" innerRadius={43} outerRadius={66} paddingAngle={0}>{chart.map(x=><Cell key={x.name} fill={x.color}/>)}</Pie></PieChart></ResponsiveContainer><strong>2,843<small>Total</small></strong></div><div className="donut-legend">{chart.map(x=><span key={x.name}><i style={{background:x.color}}/>{x.name}<b>{x.value}%</b></span>)}</div></section>
+      <section className="ref-panel type-chart"><div className="small-head"><b>Tipos de ataque</b><span>Últimas 24 horas⌄</span></div><div className="donut"><ResponsiveContainer><PieChart><Pie isAnimationActive={false} data={chart} dataKey="value" innerRadius={43} outerRadius={66} paddingAngle={0}>{chart.map(x=><Cell key={x.name} fill={x.color}/>)}</Pie></PieChart></ResponsiveContainer><strong>2,843<small>Total</small></strong></div><div className="donut-legend">{chart.map(x=><span key={x.name}><i style={{background:x.color}}/>{x.name}<b>{x.value}%</b></span>)}</div></section>
     </div>
     <footer className="safe-footer"><i/> Simulación controlada <span/> Entorno de pruebas <span/> Sin impacto en producción</footer><CyberAssistant/>
   </div>;
@@ -59,3 +61,5 @@ export function ThreatMapReferenceContent({ visualTest = false }: { visualTest?:
 function MapKpi({icon,label,value,delta,danger}:{icon:React.ReactNode;label:string;value:string;delta:string;danger?:boolean}){return <div className="map-kpi ref-panel"><div>{icon}</div><span><small>{label}</small><b>{value}</b></span><em className={danger?'red':''}>{delta}</em></div>}
 
 function MiniTable({title,rows}:{title:string;rows:string[][]}){return <section className="ref-panel activity-table"><div className="small-head"><b>{title}</b><span>Ver todas ›</span></div><div className="mini-th"><span>HORA</span><span>TIPO</span><span>ORIGEN</span><span>DESTINO</span><span>DETALLE</span><span>ESTADO</span></div>{rows.map((r,i)=><div className="mini-tr" key={r[0]}>{r.map((c,j)=><span key={j} className={j===1?'event-type':''}>{j===0&&<i className={i%2?'purple':'red'}/>} {c}</span>)}</div>)}</section>}
+
+

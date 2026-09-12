@@ -1,0 +1,29 @@
+/* Official asset integration: images own their internal animation and visual identity. */
+.cybersoc-logo-asset { object-fit: contain; display: block; }
+.cyber-crystal-mark { display: block; object-fit: contain; filter: drop-shadow(0 0 5px rgba(157,92,255,.35)); }
+.cyber-crystal-mark.is-watermark { opacity: .12; filter: blur(.3px); }
+.ss-boot-orbits > .ss-loader-one { top:50%; left:50%; transform:translate(-50%,-50%); }
+.ss-boot-orbits .ss-loader-one > .cybersoc-logo-asset { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); }
+.ss-sidebar .cyber-crystal-mark,.reference-sidebar .cyber-crystal-mark { width: 54px !important; height: 54px !important; }
+.ddos-interceptor-asset { display:block; max-width:none; object-fit:contain; will-change:transform; }
+.ddos-interceptor-asset[data-asset-active="false"] { animation:none !important; }
+.server-status-cube-asset { display:block; width:260px; height:260px; object-fit:contain; animation:asset-cube-float 3.5s ease-in-out infinite; will-change:transform; }
+.server-status-cube-asset[data-asset-active="false"] { animation:none; will-change:auto; }
+.rd-sidebar-crystal,.ss-sidebar-crystal { display:block; width:138px; height:138px; object-fit:contain; opacity:.22; pointer-events:none; }
+.rd-sidebar-crystal { margin:0 auto -24px -16px; transform:translateY(21px); }
+.ss-sidebar-crystal { position:absolute; left:-31px; bottom:-20px; }
+.map-radar-decoration { position:absolute; right:44px; top:31px; width:88px; height:88px; object-fit:contain; opacity:.16; pointer-events:none; mix-blend-mode:screen; }
+.scenario-info>b { display:flex; align-items:center; gap:6px; }
+.scenario-shield-decoration { width:19px; height:19px; object-fit:contain; opacity:.7; }
+.cyber-ai-orb-asset { display:grid; position:relative; width:76px; height:76px; overflow:hidden; border-radius:50%; transition:opacity .2s ease; }
+.cyber-ai .ai-orb > .cyber-ai-orb-asset { position:relative; inset:auto; border:0; animation:none; }
+.cyber-ai-orb-asset img,.cyber-ai-orb-asset video { width:100%; height:100%; object-fit:cover; transition:opacity .2s ease; }
+.cyber-ai-orb-asset i { position:absolute; width:9px; height:9px; border-radius:50%; right:6px; top:6px; background:#ff3d67; box-shadow:0 0 9px #ff3d67; }
+@keyframes asset-cube-float { 50% { transform:translateY(-5px); } }
+@media (prefers-reduced-motion: reduce) { .server-status-cube-asset { animation:none; } }
+html[data-page-hidden="true"] .ss-speeder::after,
+html[data-page-hidden="true"] .ss-interceptor,
+html[data-page-hidden="true"] .server-status-cube-asset,
+html[data-page-hidden="true"] .rd-route,
+html[data-page-hidden="true"] .rd-map-node-halo { animation-play-state:paused !important; }
+.map-animation-paused svg { filter:none !important; }

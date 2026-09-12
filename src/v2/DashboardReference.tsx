@@ -46,6 +46,7 @@ import ExactBackground from '../components/referenceExact/ExactBackground';
 import { Cyb3r_SocMark } from '../components/brand/Cyb3r_SocLogo';
 import { AmbientField } from '../components/brand/AmbientField';
 import { CyberAI } from '../components/ai/CyberAI';
+import crystalCluster from '../assets/decorations/crystal-cluster-static.webp';
 import { dashboardFixture } from '../data/fixtures/dashboard.fixture';
 import { useSOCStore } from '../app/store/useSOCStore';
 import './reference-dashboard.css';
@@ -191,9 +192,7 @@ export function ReferenceSidebar({
         </span>
       </div>
 
-      <div className="rd-sidebar-crystal" aria-hidden="true">
-        <i /><i /><i /><i /><i />
-      </div>
+      <img className="rd-sidebar-crystal" src={crystalCluster} alt="" aria-hidden="true" />
       <p className="rd-sidebar-motto">UN MUNDO<br />MÁS SEGURO<br />ES POSIBLE</p>
       <small className="rd-version">Cyb3r_Soc v1.0.0</small>
     </aside>

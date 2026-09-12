@@ -26,15 +26,15 @@ import {
   UsersRound,
   WifiOff,
 } from 'lucide-react';
-import ExactLoader2 from '../components/referenceExact/ExactLoader2';
-import ExactLoader4 from '../components/referenceExact/ExactLoader4';
 import ExactBackground from '../components/referenceExact/ExactBackground';
 import { CyberAI } from '../components/ai/CyberAI';
 import { Cyb3r_SocMark } from '../components/brand/Cyb3r_SocLogo';
 import { AmbientField } from '../components/brand/AmbientField';
 import { mitigationFixture } from '../data/fixtures/mitigation.fixture';
 import { offlineFixture } from '../data/fixtures/offline.fixture';
-import ddosInterceptor from '../assets/illustrations/ddos-interceptor.png';
+import { DDoSInterceptor } from '../components/assets/DDoSInterceptor';
+import { ServerStatusCube } from '../components/assets/ServerStatusCube';
+import crystalCluster from '../assets/decorations/crystal-cluster-static.webp';
 import './special-screens.css';
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
@@ -153,7 +153,7 @@ function Sidebar() {
       {utilityNavigation.map(({ label, Icon }) => <button type="button" key={label}><Icon/><span>{label}</span></button>)}
     </nav>
     <div className="ss-soc-online"><i/><span><b>SOC Online</b><small>Todos los sistemas operativos</small></span></div>
-    <div className="ss-sidebar-crystal"><CrystalMark/></div>
+    <img className="ss-sidebar-crystal" src={crystalCluster} alt="" aria-hidden="true" />
     <div className="ss-sidebar-motto">UN MUNDO<br/>MÁS SEGURO<br/>ES POSIBLE</div>
     <small className="ss-version">Cyb3r_Soc v1.0.0</small>
   </aside>;
@@ -176,7 +176,7 @@ function SpecialChrome({ children, offline = false }: { children: ReactNode; off
   </div>;
 }
 
-/** Exact five-layer rotating-star structure from code/loader_1.txt, reskinned in-place. */
+/** Official animated logo; the orbital environment remains programmatic. */
 function LoaderOneCore() {
   return <div className="ss-loader-one" aria-hidden="true"><Cyb3r_SocMark size={390} animated/></div>;
 }
@@ -191,8 +191,7 @@ export function InitialBootScreenV2({ progress = 68, onSkip }: InitialBootScreen
     <div className="ss-boot-top-motto">UN MUNDO<br/>MÁS SEGURO<br/>ES POSIBLE<i/></div>
     <div className="ss-boot-left-copy"><i/>INTELIGENCIA<br/>QUE ANTICIPA.<br/>PERSONAS<br/>QUE PROTEGEN.<b/></div>
     <div className="ss-boot-center">
-      <div className="ss-boot-orbits" aria-hidden="true"><i/><i/><i/><i/><span>+</span><span>+</span><span>+</span><span>+</span></div>
-      <LoaderOneCore/>
+      <div className="ss-boot-orbits" aria-hidden="true"><i/><i/><i/><i/><span>+</span><span>+</span><span>+</span><span>+</span><LoaderOneCore/></div>
       <h1>Inicializando <span>Cyb3r_Soc</span></h1>
       <p>CARGANDO MÓDULOS DE MONITOREO</p>
       <div className="ss-boot-progress-row">
@@ -212,11 +211,9 @@ export function InitialBootScreenV2({ progress = 68, onSkip }: InitialBootScreen
   </section>;
 }
 
-/** Exact DOM hierarchy from code/loader_2.txt, recolored for the reference screen. */
 function SpeederCore() {
   return <div className="ss-speeder ss-exact-speeder" aria-hidden="true">
-    <ExactLoader2/>
-    <img className="ss-interceptor" src={ddosInterceptor} alt=""/>
+    <DDoSInterceptor className="ss-interceptor" />
   </div>;
 }
 
@@ -284,9 +281,8 @@ export function DDoSMitigationScreenV2({ progress, paused = false, onPause, onCa
   </SpecialChrome>;
 }
 
-/** Exact six-face preserve-3d hierarchy from code/loader_4.txt, enlarged for the hero. */
 function OfflineCube() {
-  return <div className="ss-offline-loader ss-exact-offline" aria-hidden="true"><ExactLoader4/></div>;
+  return <div className="ss-offline-loader ss-exact-offline"><ServerStatusCube/></div>;
 }
 
 export function ServerUnavailableV2({ onRetry, onBack }: ServerUnavailableV2Props) {

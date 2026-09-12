@@ -5,13 +5,14 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   reporter: [['list']],
-  snapshotPathTemplate: '{testDir}/../../docs/references/{arg}{ext}',
+  snapshotPathTemplate: '{testDir}/../../Cyb3r_Soc_References_1to1/{arg}{ext}',
   expect: {
     toHaveScreenshot: {
       animations: 'disabled',
       caret: 'hide',
-      maxDiffPixelRatio: Number(process.env.CYB3R_SOC_MAX_DIFF ?? 0.08),
-      threshold: 0.28,
+      maxDiffPixels: Number(process.env.CYB3R_SOC_MAX_DIFF_PIXELS ?? 23600),
+      maxDiffPixelRatio: Number(process.env.CYB3R_SOC_MAX_DIFF ?? 0.015),
+      threshold: Number(process.env.CYB3R_SOC_PIXEL_THRESHOLD ?? 0.1),
     },
   },
   use: {
@@ -21,6 +22,8 @@ export default defineConfig({
     deviceScaleFactor: 1,
     colorScheme: 'dark',
     reducedMotion: 'reduce',
+    locale: 'es-CR',
+    timezoneId: 'America/Costa_Rica',
   },
   webServer: {
     command: 'npm run dev -- --host 127.0.0.1 --port 4173',

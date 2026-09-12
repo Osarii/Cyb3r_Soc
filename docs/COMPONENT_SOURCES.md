@@ -1,22 +1,27 @@
 # Fuentes de componentes Cyb3r_Soc
 
-Este archivo es el registro permanente de las fuentes entregadas por el usuario. Una referencia visual define el objetivo; los archivos de `code/` definen la estructura o animación que debe conservarse y adaptarse al producto.
+`src/assets/` es la fuente visual oficial. Los assets entregados se importan como recursos WebP; React conserva el estado, navegación, simulaciones, accesibilidad y lógica de voz.
 
-| Fuente | Componente adaptado | Uso en Cyb3r_Soc | Comportamiento requerido |
+| Asset oficial | Componente | Uso | Comportamiento |
 |---|---|---|---|
-| `code/loader_1.txt` | `ExactLoader1` / `Cyb3r_SocLogo` | Boot inicial, marca compacta y watermark | Cinco capas rotatorias; el boot aparece una vez por sesión mediante `sessionStorage.cyb3r_soc_initialized` |
-| `code/loader_2.txt` | `ExactLoader2` | Mitigación DDoS | Movimiento del interceptor y líneas de velocidad durante la limpieza |
-| `code/loader_4.txt` | `ExactLoader4` | Servidor no disponible | Cubo HTML/CSS con seis caras y rotación lenta |
-| `code/boton_ataque.txt` | `ExactAttackSwitch` | Consola de simulación | Secuencia POWER / ARMED / LAUNCH, confirmación y creación de un ataque ficticio |
-| `code/ia_icon.txt` | `ExactAIIcon` / `CyberAI` | Esquina inferior derecha en todas las vistas | Orb con ondas, panel, texto, micrófono con permiso explícito y respuesta mediante `speechSynthesis` |
-| `code/background.txt` | `ExactBackground` | Fondo compartido | Textura espacial tenue, recoloreada al sistema morado sin afectar legibilidad |
-| `code/map.txt` | `ThreatMap` | Dashboard y mapa de amenazas | Inspiración de movimiento trasladada a rutas SVG simuladas entre origen y destino |
-| `src/assets/illustrations/ddos-interceptor.png` | Asset generado para el proyecto | Nave del loader de mitigación | PNG transparente; React/CSS controla posición, movimiento, trails, progreso y visibilidad |
+| `branding/cybersoc-logo-loop.webm` / `cybersoc-logo-static.webp` | `CyberSOCLogo` | Header, sidebar y boot | WebM en reproducción activa; versión estática fuera de vista, en movimiento reducido o si el video falla. |
+| `ddos/ddos-interceptor-loop.webm` / `ddos-interceptor-static.webp` | `DDoSInterceptor` | Mitigación DDoS | WebM activo solo durante la mitigación; entorno, progreso y logs siguen controlados por React/CSS. |
+| `offline/server-cube-loop.webm` / `server-cube-static.webp` | `ServerStatusCube` | Servidor no disponible | WebM en reproducción activa y versión estática en movimiento reducido. |
+| `ai/cyberai-idle.webm` | `CyberAIOrb` | CyberAI inactivo | Estado `idle`. |
+| `ai/cyberai-listening.webm` | `CyberAIOrb` | Reconocimiento de voz | Estado `listening`. |
+| `ai/cyberai-thinking.webm` | `CyberAIOrb` | Preparando respuesta | Estado `thinking`. |
+| `ai/cyberai-speaking.webm` | `CyberAIOrb` | Síntesis de voz | Estado `speaking`; vuelve a `idle` al terminar `speechSynthesis`. |
+| `ai/cyberai-orb-static.webp` | `CyberAIOrb` | Fallback/error | Estado `error` y fallback de carga. |
+| `decorations/crystal-cluster-static.webp` | Sidebar | Fondo inferior | Decoración con opacidad reducida. |
+| `decorations/radar-static.webp` | Threat map | Decoración secundaria | No sustituye al mapa SVG. |
+| `decorations/security-shield-static.webp` | Consola de escenarios | Indicador secundario | Refuerza el contexto de simulación protegida. |
+
+Los archivos `*-preview.mp4` permanecen sin importar, solo para revisión visual. Las capturas de `docs/references/` nunca se renderizan en la interfaz.
 
 ## Reglas de integración
 
-- Nunca usar una captura completa de referencia como fondo o sustituto de la interfaz.
-- Mantener la estructura y la idea de movimiento de la fuente; la paleta puede adaptarse a Cyb3r_Soc.
-- Toda acción ofensiva es exclusivamente una simulación local y educativa: no genera tráfico ni toca sistemas externos.
-- Registrar aquí cada nueva fuente antes de integrarla, indicando archivo original, componente, rutas y comportamiento.
-- Las imágenes completas de `docs/references/` existen únicamente para pruebas y comparación visual.
+- Cada recurso animado usa un fallback estático mediante `AdaptiveAssetImage`.
+- `prefers-reduced-motion` selecciona el asset estático y desactiva la flotación auxiliar.
+- Los assets decorativos usan `alt=""` y `aria-hidden`; los assets funcionales tienen texto alternativo útil.
+- La simulación sigue siendo local y educativa: no genera tráfico ni interactúa con sistemas externos.
+- Las reconstrucciones antiguas por `clip-path`, cubo CSS, nave CSS y orb SVG fueron retiradas de la ruta de ejecución.

@@ -1,5 +1,5 @@
-import ExactLoader1 from '../referenceExact/ExactLoader1';
-import type { CSSProperties } from 'react';
+import { CyberSOCLogo } from './CyberSOCLogo';
+export { CyberSOCLogo } from './CyberSOCLogo';
 
 export type Cyb3r_SocLogoVariant = 'compact' | 'full' | 'animated' | 'watermark';
 
@@ -19,13 +19,7 @@ export function Cyb3r_SocMark({
   watermark?: boolean;
   className?: string;
 }) {
-  return <span
-    className={`cyber-crystal-mark ${animated ? 'is-animated' : 'is-static'} ${watermark ? 'is-watermark' : ''} ${className}`}
-    style={{ '--cyber-mark-size': `${size}px` } as CSSProperties}
-    aria-hidden="true"
-  >
-    <ExactLoader1 />
-  </span>;
+  return <CyberSOCLogo variant={animated ? 'animated' : 'static'} size={size} decorative className={`cyber-crystal-mark ${watermark ? 'is-watermark' : ''} ${className}`} />;
 }
 
 export function Cyb3r_SocLogo({
