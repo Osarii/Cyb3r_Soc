@@ -64,11 +64,35 @@ proves it necessary.
 - Visual phase closure: run every validation required to substantiate PASS.
 - Never omit a critical validation solely to save tokens.
 
+## Fast visual convergence loop
+
+- Keep `npm run visual:dev` running in a separate terminal during visual work.
+- For one-screen hypotheses use `npm run visual:<screen>` instead of manually
+  orchestrating capture, diff, metrics, and browser startup.
+- `visual:<screen>` writes trial artifacts to the OS temp directory and compares
+  them with `tests/visual/accepted-baselines.json`; canonical metrics are outputs,
+  never the acceptance authority.
+- If the result is `REGRESSED` or `UNCHANGED`: revert that hypothesis and STOP.
+  Do not inspect screenshots, try alternative visual tweaks, or build.
+- If the result is `IMPROVED`: inspect at most the one relevant screenshot when
+  necessary, perform only the justified cleanup, and run at most one second
+  visual measurement.
+- Hard limit: two visual measurements per asset/hypothesis.
+- Seed an accepted baseline only from a known-clean last trial with
+  `npm run visual:baseline -- <screen> --from-last`.
+- Accept a final improved cached trial with `npm run visual:accept -- <screen>`;
+  this updates the accepted baseline and must not launch a third capture.
+- Build once, only for a change that will be kept.
+- Read `docs/VISUAL_FAST_LOOP.md` for the exact workflow.
+
 ## Command discipline
 
 - For noisy terminal operations, prefer RTK when it materially reduces output.
 - RTK reduces command output; it does not choose code-reading scope.
 - Use native commands when output is already small or full detail is necessary.
+- Do not wrap `visual:*` commands in RTK; their output is intentionally compact.
+- On Windows, prefer raw build/error output when diagnosing a failure; do not let
+  compression hide shell/compiler diagnostics.
 - Do not use `Get-ChildItem -Recurse`, complete `git log`, complete `git diff`,
   or broad repository searches unless explicitly necessary.
 
@@ -93,6 +117,12 @@ concrete evidence demonstrates that it is necessary.
 - Build: `npm.cmd run build`
 - Responsive: `npm.cmd run test:responsive`
 - Visual capture: `node scripts/capture-visuals.mjs`
+- Visual dev server: `npm run visual:dev`
+- Compact visual checks: `npm run visual:boot`, `visual:dashboard`,
+  `visual:threat`, `visual:ddos`, `visual:offline`
+- Seed clean accepted baseline: `npm run visual:baseline -- <screen> --from-last`
+- Accept improved cached trial: `npm run visual:accept -- <screen>`
+- RTK benchmark: `npm run benchmark:rtk`
 
 Read `src/v2/AGENTS.md` for V2 screen routing and
 `docs/ARCHITECTURE_MAP.md` only when this file lacks needed detail.

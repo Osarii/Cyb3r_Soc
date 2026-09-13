@@ -9,7 +9,16 @@
     "preview": "vite preview",
     "capture:visual": "node scripts/capture-visuals.mjs",
     "test:visual": "playwright test tests/visual/cyb3r_soc.visual.spec.ts",
-    "test:responsive": "playwright test tests/visual/cyb3r_soc.responsive.spec.ts"
+    "test:responsive": "playwright test tests/visual/cyb3r_soc.responsive.spec.ts",
+    "visual:dev": "vite --host 127.0.0.1 --port 4173",
+    "visual:dashboard": "node scripts/visual-check.mjs dashboard",
+    "visual:boot": "node scripts/visual-check.mjs boot",
+    "visual:threat": "node scripts/visual-check.mjs threat",
+    "visual:ddos": "node scripts/visual-check.mjs ddos",
+    "visual:offline": "node scripts/visual-check.mjs offline",
+    "visual:baseline": "node scripts/visual-baseline.mjs",
+    "visual:accept": "node scripts/visual-accept.mjs",
+    "benchmark:rtk": "node scripts/rtk-benchmark.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "latest",
