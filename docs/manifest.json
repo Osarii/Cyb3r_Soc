@@ -1,0 +1,215 @@
+[
+  {
+    "path": "src/assets/boot/boot-loader-crystal-static.webp",
+    "bytes": 53060,
+    "screen": "Boot",
+    "role": "Loader/cristal central",
+    "priority": "P0",
+    "format": "WEBP",
+    "dimensions": [
+      385,
+      370
+    ],
+    "alpha": true,
+    "transparent_pct": 23.57,
+    "edge_alpha_median": 0
+  },
+  {
+    "path": "src/assets/boot/boot-orbital-system.svg",
+    "bytes": 897,
+    "screen": "Boot",
+    "role": "Órbitas técnicas/crosshairs",
+    "priority": "P1",
+    "format": "SVG",
+    "alpha": true,
+    "xml_valid": true
+  },
+  {
+    "path": "src/assets/boot/boot-orbital-fog.webp",
+    "bytes": 47886,
+    "screen": "Boot",
+    "role": "Neblina orbital",
+    "priority": "P0",
+    "format": "WEBP",
+    "dimensions": [
+      1100,
+      600
+    ],
+    "alpha": true,
+    "transparent_pct": 36.63,
+    "edge_alpha_median": 0
+  },
+  {
+    "path": "src/assets/boot/boot-particle-wave.webp",
+    "bytes": 87104,
+    "screen": "Boot",
+    "role": "Onda inferior de partículas",
+    "priority": "P0",
+    "format": "WEBP",
+    "dimensions": [
+      1280,
+      260
+    ],
+    "alpha": true,
+    "transparent_pct": 75.27,
+    "edge_alpha_median": 0
+  },
+  {
+    "path": "src/assets/boot/boot-left-crystal-blur.webp",
+    "bytes": 16654,
+    "screen": "Boot",
+    "role": "Cristal desenfocado inferior izquierdo",
+    "priority": "P1",
+    "format": "WEBP",
+    "dimensions": [
+      355,
+      370
+    ],
+    "alpha": true,
+    "transparent_pct": 60.18,
+    "edge_alpha_median": 0
+  },
+  {
+    "path": "src/assets/shared/simulation-control-device.webp",
+    "bytes": 22522,
+    "screen": "Dashboard / Threat Map",
+    "role": "Dispositivo rojo de simulación",
+    "priority": "P1",
+    "format": "WEBP",
+    "dimensions": [
+      170,
+      160
+    ],
+    "alpha": true,
+    "transparent_pct": 7.69,
+    "edge_alpha_median": 19
+  },
+  {
+    "path": "src/assets/shared/sidebar-crystal-cluster.webp",
+    "bytes": 8890,
+    "screen": "Shared shell",
+    "role": "Cristal decorativo del sidebar",
+    "priority": "P1",
+    "format": "WEBP",
+    "dimensions": [
+      175,
+      135
+    ],
+    "alpha": true,
+    "transparent_pct": 40.68,
+    "edge_alpha_median": 0
+  },
+  {
+    "path": "src/assets/shared/shell-top-crystal-field.svg",
+    "bytes": 590,
+    "screen": "Shared shell",
+    "role": "Facetas superiores de atmósfera",
+    "priority": "P1",
+    "format": "SVG",
+    "alpha": true,
+    "xml_valid": true
+  },
+  {
+    "path": "src/assets/threat/threat-world-map.webp",
+    "bytes": 117974,
+    "screen": "Dashboard / Threat Map",
+    "role": "Mapa mundial base limpio",
+    "priority": "P0",
+    "format": "WEBP",
+    "dimensions": [
+      1200,
+      453
+    ],
+    "alpha": true,
+    "transparent_pct": 64.03,
+    "edge_alpha_median": 0
+  },
+  {
+    "path": "src/assets/ddos/ddos-mitigation-hero-static.webp",
+    "bytes": 62132,
+    "screen": "DDoS",
+    "role": "Nave + energía/trails + halos",
+    "priority": "P0",
+    "format": "WEBP",
+    "dimensions": [
+      425,
+      370
+    ],
+    "alpha": true,
+    "transparent_pct": 34.74,
+    "edge_alpha_median": 0
+  },
+  {
+    "path": "src/assets/offline/server-offline-hero-static.webp",
+    "bytes": 141164,
+    "screen": "Offline",
+    "role": "Cubo + órbitas + satélites",
+    "priority": "P0",
+    "format": "WEBP",
+    "dimensions": [
+      640,
+      445
+    ],
+    "alpha": true,
+    "transparent_pct": 24.25,
+    "edge_alpha_median": 0
+  },
+  {
+    "path": "src/assets/branding/cybersoc-logo-loop.webm",
+    "bytes": 261548,
+    "screen": "Shared",
+    "role": "Logo animado regular con alpha",
+    "priority": "P0",
+    "format": "WEBM",
+    "dimensions": [
+      288,
+      288
+    ],
+    "alpha": true,
+    "duration_seconds": 4.0
+  },
+  {
+    "path": "src/assets/branding/cybersoc-logo-loop-small.webm",
+    "bytes": 64718,
+    "screen": "Shared",
+    "role": "Logo animado compacto con alpha",
+    "priority": "P0",
+    "format": "WEBM",
+    "dimensions": [
+      128,
+      128
+    ],
+    "alpha": true,
+    "duration_seconds": 4.0
+  },
+  {
+    "path": "src/assets/branding/cybersoc-logo-static.webp",
+    "bytes": 77100,
+    "screen": "Shared",
+    "role": "Fallback estático regular",
+    "priority": "P0",
+    "format": "WEBP",
+    "dimensions": [
+      640,
+      640
+    ],
+    "alpha": true,
+    "transparent_pct": 58.51,
+    "edge_alpha_median": 0
+  },
+  {
+    "path": "src/assets/branding/cybersoc-logo-static-small.webp",
+    "bytes": 7680,
+    "screen": "Shared",
+    "role": "Fallback estático compacto",
+    "priority": "P0",
+    "format": "WEBP",
+    "dimensions": [
+      128,
+      128
+    ],
+    "alpha": true,
+    "transparent_pct": 55.49,
+    "edge_alpha_median": 0
+  }
+]
