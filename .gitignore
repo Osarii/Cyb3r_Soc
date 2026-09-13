@@ -4,8 +4,27 @@ dist/
 .npm-cache/
 test-results/
 playwright-report/
+
+# Visual test generated output
 tests/visual/current/
+tests/visual/repeat/
+tests/visual/diffs/
+
+# Official references remain local
 Cyb3r_Soc_References_1to1/
+
+# Serena local project state
+.serena/
+
+# Local visual/documentation artifacts
+docs/visual-current/phase4-boot/
+docs/visual-current.zip
+docs/ASSET_PREVIEW*.jpg
+README_APPLY.txt
+
+# Local archives
+Cyb3r_Soc_References_1to1.zip
+src/assets/branding.zip
 
 *.tsbuildinfo
 *.log
