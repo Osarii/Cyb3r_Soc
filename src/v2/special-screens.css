@@ -278,18 +278,7 @@
 .ss-boot-left-copy b { width: 31px; height: 1px; margin-top: 11px; }
 .ss-boot-center { position: absolute; z-index: 4; top: 55px; left: 50%; width: 750px; transform: translateX(-50%); text-align: center; }
 .ss-boot-orbits { position: relative; width: 560px; height: 485px; margin: 0 auto; }
-.ss-boot-orbits::before,.ss-boot-orbits::after,.ss-boot-orbits > i { content: ''; position: absolute; border: 1px solid rgba(125, 76, 192, .32); border-radius: 50%; }
-.ss-boot-orbits::before { inset: 22px; border-style: dashed; }
-.ss-boot-orbits::after { inset: 66px; }
-.ss-boot-orbits > i:nth-child(1) { inset: 89px; }
-.ss-boot-orbits > i:nth-child(2) { inset: 116px; border-style: dashed; }
-.ss-boot-orbits > i:nth-child(3) { left: 50%; top: 20px; bottom: 20px; width: 1px; border: 0; border-left: 1px solid rgba(139, 89, 210, .22); border-radius: 0; }
-.ss-boot-orbits > i:nth-child(4) { top: 50%; left: 31px; right: 31px; height: 1px; border: 0; border-top: 1px solid rgba(139, 89, 210, .16); border-radius: 0; }
-.ss-boot-orbits span { position: absolute; color: #b890f0; font: 300 28px var(--font-ui, sans-serif); }
-.ss-boot-orbits span:nth-of-type(1) { top: 16px; left: 50%; }
-.ss-boot-orbits span:nth-of-type(2) { top: 49%; left: 11px; }
-.ss-boot-orbits span:nth-of-type(3) { top: 49%; right: 10px; }
-.ss-boot-orbits span:nth-of-type(4) { bottom: 9px; left: 50%; }
+.ss-boot-orbital-system { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 1; z-index: 0; pointer-events: none; }
 .ss-loader-one { position: absolute; top: 91px; left: 50%; width: 470px; height: 410px; transform: translateX(-50%); filter: drop-shadow(0 0 20px rgba(145, 68, 255, .48)); }
 .ss-loader-one .preloader { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 0 2px #fff); }
 .ss-loader-one .crack { position: absolute; left: 50%; top: 50%; width: 53%; aspect-ratio: 1; transform: translate(-50%, -50%); background: linear-gradient(124deg, #331260 0 29%, #9c61ed 30% 44%, #f8edff 45% 51%, #7131bc 52% 73%, #1b0c37 74%); clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); animation: ss-loader-one-rotate 6s infinite linear; opacity: .76; }
@@ -318,7 +307,7 @@
 .ss-boot-rail span i { z-index: 1; width: 9px; height: 9px; border-radius: 50%; border: 1px solid #35324e; background: #151426; }
 .ss-boot-rail span.active { color: #fff; }
 .ss-boot-rail span.active i { border-color: #b779ff; background: #9d5cff; box-shadow: 0 0 11px #a358ff; }
-.ss-boot-wave { position: absolute; z-index: 2; left: 18%; right: -5%; bottom: -143px; height: 330px; transform: rotate(-2deg); background: radial-gradient(ellipse at 50% 16%, transparent 0 25%, rgba(143, 76, 227, .25) 25.5% 26%, transparent 26.5%), repeating-radial-gradient(ellipse at 52% 17%, rgba(164, 93, 255, .45) 0 1px, transparent 1.2px 7px); clip-path: polygon(0 50%,9% 39%,20% 43%,32% 35%,43% 45%,56% 25%,67% 39%,78% 8%,91% 19%,100% 0,100% 100%,0 100%); opacity: .63; filter: drop-shadow(0 -2px 13px #5b2299); }
+.ss-boot-wave { position: absolute; z-index: 2; left: 18%; right: -5%; bottom: -143px; height: 330px; transform: rotate(-2deg); background: radial-gradient(ellipse at 50% 16%, transparent 0 25%, rgba(143, 76, 227, .25) 25.5% 26%, transparent 26.5%), repeating-radial-gradient(ellipse at 52% 17%, rgba(164, 93, 255, .45) 0 1px, transparent 1.2px 7px); clip-path: polygon(0 50%,9% 39%,20% 43%,32% 35%,43% 45%,56% 25%,67% 39%,78% 8%,91% 19%,100% 0,100% 100%,0 100%); opacity: .45; filter: drop-shadow(0 -2px 13px #5b2299); }
 .ss-boot-version,.ss-boot-operations,.ss-boot-skip { position: absolute; z-index: 5; bottom: 48px; color: #77718f; font-size: 10px; }
 .ss-boot-version { left: 52px; }
 .ss-boot-operations { right: 51px; font: 500 9px/1.7 var(--font-mono, monospace); letter-spacing: .18em; }
@@ -661,6 +650,7 @@ html[data-visual-test="true"] .ss-loader-one .cyber-crystal-mark .crack5 { trans
   .ss-boot-wave { display: none; }
   .ss-boot-center { top: 105px; left: 0; width: 100%; transform: none; }
   .ss-boot-orbits { width: min(390px, 100vw); height: 380px; }
+  .ss-boot-orbital-system { display: none; }
   .ss-loader-one { top: 24px; width: min(390px, 100vw); height: 330px; }
   .ss-boot-center h1 { margin-top: 7px; font-size: clamp(30px, 9vw, 41px); }
   .ss-boot-center > p { padding: 0 18px; font-size: 9px; line-height: 1.6; }

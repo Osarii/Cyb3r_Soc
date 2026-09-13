@@ -35,6 +35,7 @@ import { offlineFixture } from '../data/fixtures/offline.fixture';
 import { DDoSInterceptor } from '../components/assets/DDoSInterceptor';
 import { ServerStatusCube } from '../components/assets/ServerStatusCube';
 import crystalCluster from '../assets/decorations/crystal-cluster-static.webp';
+import bootOrbitalSystem from '../assets/boot/boot-orbital-system.svg';
 import './special-screens.css';
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
@@ -191,7 +192,7 @@ export function InitialBootScreenV2({ progress = 68, onSkip }: InitialBootScreen
     <div className="ss-boot-top-motto">UN MUNDO<br/>MÁS SEGURO<br/>ES POSIBLE<i/></div>
     <div className="ss-boot-left-copy"><i/>INTELIGENCIA<br/>QUE ANTICIPA.<br/>PERSONAS<br/>QUE PROTEGEN.<b/></div>
     <div className="ss-boot-center">
-      <div className="ss-boot-orbits" aria-hidden="true"><i/><i/><i/><i/><span>+</span><span>+</span><span>+</span><span>+</span><LoaderOneCore/></div>
+      <div className="ss-boot-orbits" aria-hidden="true"><img className="ss-boot-orbital-system" src={bootOrbitalSystem} alt=""/><LoaderOneCore/></div>
       <h1>Inicializando <span>Cyb3r_Soc</span></h1>
       <p>CARGANDO MÓDULOS DE MONITOREO</p>
       <div className="ss-boot-progress-row">

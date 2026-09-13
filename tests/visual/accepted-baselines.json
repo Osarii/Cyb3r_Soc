@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "screens": {
+    "02-boot-screen.png": {
+      "diffRatio": 0.12519194687520657,
+      "differentPixels": 196971,
+      "totalPixels": 1573352,
+      "pixelThreshold": 0.1
+    }
+  }
+}
