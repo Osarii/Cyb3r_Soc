@@ -1,4 +1,5 @@
-import type { ComponentType, ReactNode, SVGProps } from 'react';
+import { useCallback, useEffect, useRef, useState, type ComponentType, type ReactNode, type SVGProps } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   ArrowLeft,
   Bell,
@@ -27,6 +28,7 @@ import {
   WifiOff,
 } from 'lucide-react';
 import ExactBackground from '../components/referenceExact/ExactBackground';
+import EntrySystemShader from '../components/backgrounds/EntrySystemShader';
 import { CyberAI } from '../components/ai/CyberAI';
 import { Cyb3r_SocMark } from '../components/brand/Cyb3r_SocLogo';
 import { AmbientField } from '../components/brand/AmbientField';
@@ -35,7 +37,7 @@ import { offlineFixture } from '../data/fixtures/offline.fixture';
 import { DDoSInterceptor } from '../components/assets/DDoSInterceptor';
 import { ServerStatusCube } from '../components/assets/ServerStatusCube';
 import crystalCluster from '../assets/decorations/crystal-cluster-static.webp';
-import bootOrbitalSystem from '../assets/boot/boot-orbital-system.svg';
+import { isVisualTestSearch } from '../config/visualTest';
 import './special-screens.css';
 
 type Icon = ComponentType<SVGProps<SVGSVGElement>>;
@@ -43,6 +45,41 @@ type Icon = ComponentType<SVGProps<SVGSVGElement>>;
 export interface InitialBootScreenV2Props {
   progress?: number;
   onSkip?: () => void;
+  onComplete?: () => void;
+}
+
+export function BootEntryScreen({ onStart }: { onStart: () => void }) {
+  return <section className="ss-boot-entry" aria-label="Inicio del sistema">
+    <EntrySystemShader />
+    <div className="ss-boot-entry-hud" aria-hidden="true">
+      <span className="ss-entry-ring ss-entry-ring--outer" />
+      <span className="ss-entry-ring ss-entry-ring--inner" />
+      <span className="ss-entry-core" />
+      <span className="ss-entry-node ss-entry-node--a" />
+      <span className="ss-entry-node ss-entry-node--b" />
+      <span className="ss-entry-node ss-entry-node--c" />
+    </div>
+
+    <div className="ss-boot-entry-content">
+      <div className="ss-boot-entry-brand" aria-label="CyberSOC brand">
+        <span className="ss-boot-entry-mark"><Cyb3r_SocMark size={58} /></span>
+        <div className="ss-boot-entry-copy">
+          <small>SISTEMA DE OPERACIONES DE SEGURIDAD</small>
+          <span>SECURE CONNECTION · CORE ONLINE</span>
+        </div>
+      </div>
+
+      <p className="ss-boot-entry-title">CYBER<span>_</span>SOC</p>
+
+      <div className="ss-boot-entry-status" aria-hidden="true">
+        <span>SYSTEM READY</span>
+        <span>SECURE CONNECTION</span>
+        <span>CORE ONLINE</span>
+      </div>
+
+      <button type="button" onClick={onStart}>INICIAR SISTEMA</button>
+    </div>
+  </section>;
 }
 
 export interface DDoSMitigationScreenV2Props {
@@ -103,6 +140,15 @@ function clampProgress(value: number | undefined) {
   return Math.max(0, Math.min(100, value ?? 68));
 }
 
+const primaryThresholds = [0, 20, 40, 65, 90];
+const lowerThresholds = [5, 30, 55, 80];
+
+function getActiveThresholdIndex(value: number, thresholds: number[]) {
+  const nextIndex = thresholds.findIndex(threshold => value < threshold);
+  if (nextIndex === -1) return thresholds.length - 1;
+  return Math.max(0, nextIndex - 1);
+}
+
 function CrystalMark({ className = '', compact = false }: { className?: string; compact?: boolean }) {
   return <span className={`ss-crystal-mark ${compact ? 'ss-crystal-mark--compact' : ''} ${className}`} aria-hidden="true">
     <Cyb3r_SocMark size={compact ? 27 : 65}/>
@@ -112,7 +158,7 @@ function CrystalMark({ className = '', compact = false }: { className?: string; 
 function BrandLockup({ compact = false }: { compact?: boolean }) {
   return <div className={`ss-brand ${compact ? 'ss-brand--compact' : ''}`}>
     <CrystalMark compact={compact}/>
-    <div><strong>Cyb3r_<span>Soc</span></strong><small>DETECTAR · ANALIZAR · PROTEGER</small></div>
+    <div><strong>CYBER_SOC</strong><small>DETECTAR · ANALIZAR · PROTEGER</small></div>
   </div>;
 }
 
@@ -156,7 +202,7 @@ function Sidebar() {
     <div className="ss-soc-online"><i/><span><b>SOC Online</b><small>Todos los sistemas operativos</small></span></div>
     <img className="ss-sidebar-crystal" src={crystalCluster} alt="" aria-hidden="true" />
     <div className="ss-sidebar-motto">UN MUNDO<br/>MÁS SEGURO<br/>ES POSIBLE</div>
-    <small className="ss-version">Cyb3r_Soc v1.0.0</small>
+    <small className="ss-version">CYBER_SOC v1.0.0</small>
   </aside>;
 }
 
@@ -171,44 +217,109 @@ function SpecialChrome({ children, offline = false }: { children: ReactNode; off
     <Sidebar/>
     <TopBar offline={offline}/>
     <div className="ss-ambient" aria-hidden="true"/>
-    <div className="ss-quote">“La mejor defensa es una operación más inteligente.”<small>— Cyb3r_Soc</small></div>
+    <div className="ss-quote">“La mejor defensa es una operación más inteligente.”<small>— CYBER_SOC</small></div>
     <main className="ss-shell-main">{children}</main>
     <CyberAIOrb/>
   </div>;
 }
 
-/** Official animated logo; the orbital environment remains programmatic. */
-function LoaderOneCore() {
-  return <div className="ss-loader-one" aria-hidden="true"><Cyb3r_SocMark size={390} animated/></div>;
-}
+export function InitialBootScreenV2({ progress = 68, onSkip, onComplete }: InitialBootScreenV2Props) {
+  const location = useLocation();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const completionFrameRef = useRef<number | null>(null);
+  const finalizedRef = useRef(false);
+  const visualTest = isVisualTestSearch(location.search);
+  const [displayProgress, setDisplayProgress] = useState(() => clampProgress(visualTest ? progress : 0));
 
-export function InitialBootScreenV2({ progress = 68, onSkip }: InitialBootScreenV2Props) {
-  const safeProgress = clampProgress(progress);
+  const completeBoot = useCallback(() => {
+    if (visualTest || finalizedRef.current) return;
+    finalizedRef.current = true;
+    setDisplayProgress(100);
+    if (rafRef.current !== null) {
+      window.cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    completionFrameRef.current = window.requestAnimationFrame(() => onComplete?.());
+  }, [onComplete, visualTest]);
+
+  useEffect(() => {
+    if (visualTest) {
+      const video = videoRef.current;
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+      setDisplayProgress(clampProgress(progress));
+      return;
+    }
+
+    const video = videoRef.current;
+    if (!video) return;
+    let isActive = true;
+
+    const syncProgress = () => {
+      if (!isActive) return;
+      const duration = video.duration;
+      if (Number.isFinite(duration) && duration > 0) {
+        setDisplayProgress(clampProgress((video.currentTime / duration) * 100));
+      }
+      if (isActive && !video.paused && !video.ended) rafRef.current = window.requestAnimationFrame(syncProgress);
+      else rafRef.current = null;
+    };
+    const startTracking = () => {
+      if (isActive && rafRef.current === null) rafRef.current = window.requestAnimationFrame(syncProgress);
+    };
+    const handleMetadata = () => startTracking();
+    const handlePlay = () => startTracking();
+
+    finalizedRef.current = false;
+    setDisplayProgress(0);
+    video.currentTime = 0;
+    video.addEventListener('loadedmetadata', handleMetadata);
+    video.addEventListener('durationchange', handleMetadata);
+    video.addEventListener('play', handlePlay);
+    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) startTracking();
+    video.play().catch(error => console.warn('Boot video playback failed.', error));
+
+    return () => {
+      isActive = false;
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+      if (completionFrameRef.current !== null) {
+        window.cancelAnimationFrame(completionFrameRef.current);
+        completionFrameRef.current = null;
+      }
+      video.removeEventListener('loadedmetadata', handleMetadata);
+      video.removeEventListener('durationchange', handleMetadata);
+      video.removeEventListener('play', handlePlay);
+      video.pause();
+      finalizedRef.current = false;
+    };
+  }, [progress, visualTest]);
+
+  const safeProgress = clampProgress(displayProgress);
   const labels = ['Verificando entorno', 'Cargando módulos\nde monitoreo', 'Conectando fuentes\nde datos', 'Inicializando\ninteligencia'];
-  return <section className="ss-boot-screen" aria-label="Inicializando Cyb3r_Soc">
-    <AmbientField/>
-    <div className="ss-boot-noise" aria-hidden="true"/>
-    <BrandLockup/>
-    <div className="ss-boot-top-motto">UN MUNDO<br/>MÁS SEGURO<br/>ES POSIBLE<i/></div>
-    <div className="ss-boot-left-copy"><i/>INTELIGENCIA<br/>QUE ANTICIPA.<br/>PERSONAS<br/>QUE PROTEGEN.<b/></div>
-    <div className="ss-boot-center">
-      <div className="ss-boot-orbits" aria-hidden="true"><img className="ss-boot-orbital-system" src={bootOrbitalSystem} alt=""/><LoaderOneCore/></div>
-      <h1>Inicializando <span>Cyb3r_Soc</span></h1>
-      <p>CARGANDO MÓDULOS DE MONITOREO</p>
+  const activePrimaryIndex = getActiveThresholdIndex(safeProgress, primaryThresholds);
+  const activeLowerIndex = getActiveThresholdIndex(safeProgress, lowerThresholds);
+
+  return <section className="ss-boot-screen" aria-label="Inicializando CYBER_SOC">
+    <video ref={videoRef} className="ss-boot-video" autoPlay={!visualTest} muted playsInline preload="auto" aria-hidden="true" onEnded={completeBoot} src="/media/cybersoc-boot-ambient.mp4" />
+    <span className="ss-boot-status">Inicializando CYBER_SOC</span>
+    <div className="ss-boot-center ss-boot-dynamic">
       <div className="ss-boot-progress-row">
         <div className="ss-boot-progress"><i style={{ width: `${safeProgress}%` }}/></div><strong>{Math.round(safeProgress)}%</strong>
       </div>
       <div className="ss-boot-checkpoints">
-        {labels.map((label, index) => <span className={index === 0 ? 'active' : ''} key={label}><i/>{label.split('\n').map(part => <b key={part}>{part}</b>)}</span>)}
+        {labels.map((label, index) => <span className={safeProgress >= lowerThresholds[index] ? 'active' : ''} key={label}><i/>{label.split('\n').map(part => <b key={part}>{part}</b>)}</span>)}
       </div>
     </div>
     <div className="ss-boot-rail">
-      {['INICIALIZANDO', 'MÓDULOS', 'DATOS', 'INTELIGENCIA', 'LISTO'].map((label, index) => <span className={index === 0 ? 'active' : ''} key={label}><i/>{label}</span>)}
+      {['INICIALIZANDO', 'MÓDULOS', 'DATOS', 'INTELIGENCIA', 'LISTO'].map((label, index) => <span className={safeProgress >= primaryThresholds[index] ? 'active' : ''} key={label}><i/>{label}</span>)}
     </div>
-    <div className="ss-boot-wave" aria-hidden="true"/>
-    <small className="ss-boot-version">Cyb3r_Soc v1.0.0</small>
-    <small className="ss-boot-operations">CENTRO DE OPERACIONES<br/>DE SEGURIDAD</small>
-    {onSkip ? <button type="button" className="ss-boot-skip" onClick={onSkip}>OMITIR INTRO</button> : null}
+    {onSkip ? <button type="button" className="ss-boot-skip" aria-label="Omitir intro" onClick={onSkip}/>: null}
   </section>;
 }
 
@@ -295,7 +406,7 @@ export function ServerUnavailableV2({ onRetry, onBack }: ServerUnavailableV2Prop
       <div className="ss-offline-copy">
         <h1>Servidor <span>{offlineFixture.title.replace('Servidor ', '')}</span></h1>
         <h2>{offlineFixture.subtitle}</h2>
-        <p>El servicio de Cyb3r_Soc está temporalmente fuera de línea. Verifica tu conexión<br/>o inténtalo de nuevo en unos momentos.</p>
+        <p>El servicio de CYBER_SOC está temporalmente fuera de línea. Verifica tu conexión<br/>o inténtalo de nuevo en unos momentos.</p>
         <div><CyberButton primary onClick={onRetry}><RefreshCw/>Reintentar</CyberButton><CyberButton onClick={onBack}><ArrowLeft/>Volver al panel</CyberButton></div>
       </div>
       <div className="ss-offline-cards">

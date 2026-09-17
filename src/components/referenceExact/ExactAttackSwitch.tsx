@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Play, TriangleAlert } from 'lucide-react';
 import styled from 'styled-components';
 
-const ExactAttackSwitch = ({ buttonLabel = 'Iniciar ataque simulado', onLaunch }: { buttonLabel?: string; onLaunch?: () => void }) => {
+const ExactAttackSwitch = ({ buttonLabel = 'Iniciar ataque simulado', onLaunch, deviceAsset }: { buttonLabel?: string; onLaunch?: () => void; deviceAsset?: string }) => {
   const [launched, setLaunched] = useState(false);
 
   const toggleSimulation = () => {
@@ -15,14 +15,16 @@ const ExactAttackSwitch = ({ buttonLabel = 'Iniciar ataque simulado', onLaunch }
     <div className="cyber-attack-module">
       <div className="module-body">
         <div className="device-art" aria-hidden="true">
-          <span className="crystal shard-a"/><span className="crystal shard-b"/><span className="crystal shard-c"/>
-          <div className="device-shadow"/>
-          <div className="device-housing">
-            <i className="bolt bolt-a"/><i className="bolt bolt-b"/><i className="bolt bolt-c"/><i className="bolt bolt-d"/>
-            <div className={`launch-lamp ${launched ? 'is-active' : ''}`}/>
-            <small>LAUNCH</small>
-          </div>
-          <div className="safety-lid"><i/><b/></div>
+          {deviceAsset ? <img className="device-asset" src={deviceAsset} alt="" /> : <>
+            <span className="crystal shard-a"/><span className="crystal shard-b"/><span className="crystal shard-c"/>
+            <div className="device-shadow"/>
+            <div className="device-housing">
+              <i className="bolt bolt-a"/><i className="bolt bolt-b"/><i className="bolt bolt-c"/><i className="bolt bolt-d"/>
+              <div className={`launch-lamp ${launched ? 'is-active' : ''}`}/>
+              <small>LAUNCH</small>
+            </div>
+            <div className="safety-lid"><i/><b/></div>
+          </>}
         </div>
         <div className="module-copy">
           <div className="controlled"><TriangleAlert/><span>SIMULACIÓN<br/>CONTROLADA</span></div>
@@ -54,6 +56,7 @@ const StyledWrapper = styled.div`
 
   .module-body { display: grid; grid-template-columns: 246px 1fr; gap: 10px; }
   .device-art { position: relative; height: 240px; display: grid; place-items: center; perspective: 560px; isolation: isolate; }
+  .device-asset { display: block; width: 100%; height: 100%; object-fit: contain; }
 
   .crystal { position: absolute; z-index: -2; display: block; background: linear-gradient(145deg,rgba(237,220,255,.83),rgba(131,54,239,.55) 44%,rgba(35,11,73,.08) 75%); border: 1px solid rgba(193,128,255,.38); filter: drop-shadow(0 0 10px rgba(129,45,231,.36)); }
   .shard-a { width: 105px; height: 226px; left: 14px; top: 8px; clip-path: polygon(0 20%,64% 0,100% 32%,68% 65%,96% 100%,18% 83%); }

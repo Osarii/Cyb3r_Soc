@@ -11,6 +11,69 @@ dependencies unless a regression, import, selector, or failing test requires mor
 | DDoS | `SpecialScreens.tsx` (`DDoSMitigationScreenV2`) | `special-screens.css` | `special-screens/DDoSInterceptor`, mitigation fixture |
 | Offline | `SpecialScreens.tsx` (`ServerUnavailableV2`) | `special-screens.css` | `special-screens/ServerStatusCube`, `brand/Cyb3r_SocLogo` |
 
+## Current Agent Workflow
+
+### Integration policy
+- Codex only implements/integrates changes.
+- Do not run validation unless explicitly requested.
+- Do not run `npm run build`, React Doctor, tests, browser validation, Playwright, or visual diffs by default.
+- The user performs validation after Codex finishes.
+- Never run `git add .`, commit, push, or stage files unless explicitly requested.
+
+### Serena
+- Use Serena for semantic code navigation on medium/complex tasks.
+- Prefer symbol-level tools such as:
+  - `get_symbols_overview`
+  - `find_symbol`
+  - `find_declaration`
+  - `find_referencing_symbols`
+  - `find_implementations`
+- Use Serena when tracing stores, callbacks, state, component relationships, routes, or data flow.
+- Do not use Serena for simple CSS, assets, paths, or trivial textual changes.
+- If a task explicitly requires Serena and Serena is unavailable, stop. Do not silently replace it with textual search.
+
+### RTK
+- RTK executable:
+  `C:\Users\jgarc\.local\bin\rtk.exe`
+- Use RTK only when terminal output would otherwise be large or noisy.
+- Do not use RTK unnecessarily for small commands.
+- RTK does not replace Serena for semantic code understanding.
+
+### Ponytail
+- Follow Ponytail principles:
+  - reuse existing code before creating new abstractions
+  - prefer the smallest working change
+  - avoid speculative abstractions
+  - avoid unnecessary files/components/helpers
+  - preserve existing architecture unless change is necessary
+  - minimize diff size without sacrificing correctness
+
+### CYBER_SOC project rules
+- Preserve the existing CYBER_SOC visual language and architecture.
+- Reuse the existing store/data flow instead of creating duplicate sources of truth.
+- Do not redesign stable screens unless explicitly requested.
+- Avoid document-level scrolling in primary desktop/fullscreen views.
+- Do not use CSS `zoom` or `transform: scale()` as layout fixes.
+
+### Sensitive/stable areas
+- Do not modify `EntrySystemShader.tsx` unless the task explicitly requires it.
+- Do not modify `InteractiveNeuralVortexBackground.tsx` unless explicitly required.
+- Entry/Boot lifecycle is considered stable.
+- Do not refactor shaders merely to satisfy `react-doctor/no-giant-component`.
+
+### React Doctor status
+- Current full-project React Doctor baseline: 95/100.
+- Remaining `no-giant-component` warnings are accepted technical debt for now.
+- Do not pursue 100/100 unless explicitly requested.
+
+### Output discipline
+- Keep agent responses concise.
+- After integration report:
+  1. what changed
+  2. files created
+  3. files modified
+  4. relevant limitations
+- Do not spend tokens describing validation that was not run.
 ## Screen workflow
 
 1. Read the target screen's mapped React and CSS first.
@@ -47,6 +110,15 @@ as a direct dependency only when the mismatch touches those elements.
 
 Boot, DDoS and Offline use their own full-screen V2 shell in `SpecialScreens`.
 Do not change the shared Dashboard shell to solve their visual differences.
+
+## Desktop viewport rule
+
+When adapting a primary V2 desktop screen, keep its `ReferenceShell` content
+within the available `100dvh` viewport. Preserve the shared sidebar and
+topbar, distribute page rows with `min-height: 0` and `minmax(0, 1fr)`, and
+avoid visible scrollbars in primary panels. Prefer compact summaries, tabs, or
+“Ver todos” routes for long collections. Apply this per screen; do not impose
+a dashboard layout on other routes.
 
 ## Validation selection
 

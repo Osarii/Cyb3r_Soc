@@ -5,6 +5,7 @@ import App from './App';
 import './styles/global.css';
 import './styles/reference-polish.css';
 import './styles/official-assets.css';
+import './styles/ui-layer.css';
 import logoLoop from './assets/branding/cybersoc-logo-loop.webm';
 import aiIdle from './assets/ai/cyberai-idle.webm';
 

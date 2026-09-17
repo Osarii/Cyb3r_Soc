@@ -1,0 +1,20 @@
+@import "tailwindcss/theme.css";
+@import "tailwindcss/utilities.css";
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --primary: 263 70% 50%;
+  --primary-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+}
+
+@layer components {
+  .cyber-ui-layer {
+    isolation: isolate;
+  }
+}

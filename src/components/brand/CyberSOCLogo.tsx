@@ -12,5 +12,5 @@ export function CyberSOCLogo({ variant = 'animated', size = 'md', decorative = f
 }) {
   const pixels = typeof size === 'number' ? size : sizes[size];
   const useSmallAsset = pixels <= sizes.md;
-  return <AdaptiveAssetImage className={`cybersoc-logo-asset ${className}`} animated={variant === 'animated'} animatedSrc={useSmallAsset ? logoLoopSmall : logoLoop} staticSrc={useSmallAsset ? logoStaticSmall : logoStatic} alt={decorative ? '' : 'Cyb3r_Soc'} aria-hidden={decorative || undefined} style={{ width: pixels, height: pixels }} />;
+  return <AdaptiveAssetImage className={`cybersoc-logo-asset ${className}`} animated={variant === 'animated'} animatedSrc={useSmallAsset ? logoLoopSmall : logoLoop} staticSrc={useSmallAsset ? logoStaticSmall : logoStatic} alt={decorative ? '' : 'CYBER_SOC'} aria-hidden={decorative || undefined} style={{ width: pixels, height: pixels }} />;
 }

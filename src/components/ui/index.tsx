@@ -14,4 +14,4 @@ export const CyberProgress=({value}:{value:number})=><div className="progress" a
 export function CyberStatCard({label,value,delta,icon}:{label:string;value:string;delta:string;icon:ReactNode}){return <CyberCard className="stat"><div className="stat-icon">{icon}</div><div><span>{label}</span><strong>{value}</strong><small>{delta}</small></div></CyberCard>}
 export function CyberTooltip({label,children}:{label:string;children:ReactNode}){return <span title={label}>{children}</span>}
 export const CyberModal=({children}: {children:ReactNode})=><div className="modal-backdrop"><CyberPanel className="modal">{children}</CyberPanel></div>;
-export const CyberDropdown=CyberSelect;
+export function CyberDropdown(props:SelectHTMLAttributes<HTMLSelectElement>){return <CyberSelect {...props}/>}

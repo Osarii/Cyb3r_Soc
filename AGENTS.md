@@ -39,6 +39,24 @@ proves it necessary.
 - Keep generated visual output separate from application source.
 - Avoid unrelated refactors and do not scan the whole repository by default.
 
+## Desktop Viewport / App Shell Rule
+
+CYBER_SOC is a desktop-first Security Operations Center interface. Primary
+desktop SOC screens must fit the available viewport height, preferably with a
+`100dvh` shell, without document-level vertical scrolling. Keep the sidebar,
+header, and main area inside that viewport using Grid/Flex with `min-height: 0`
+and `minmax(0, 1fr)` where needed.
+
+Use moderate spacing and panel-height adjustments first. “No scroll” never
+means hiding a scrollbar artificially: panels must first grow through Grid/Flex
+space distribution. Keep panel headers visible, and use `overflow-y: auto`
+only for a list that genuinely exceeds its allocated area. When a collection
+cannot fit, prefer a compact summary with pagination, tabs, or a “Ver todos”
+route. Never solve viewport fitting with CSS `zoom`, `transform: scale()`, or
+`overflow: hidden` that conceals important content, browser-zoom assumptions,
+or unreadably small text. Apply this rule page-by-page; do not redesign every
+screen at once. Fullscreen presentation remains supported.
+
 ## Context efficiency
 
 1. Start with files explicitly named by the task.

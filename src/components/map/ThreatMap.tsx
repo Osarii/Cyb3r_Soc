@@ -1,12 +1,13 @@
 import { memo, useId, useMemo, useRef } from 'react';
-import { ComposableMap, Geographies, Geography, Graticule, ZoomableGroup } from 'react-simple-maps';
+import { ComposableMap, ZoomableGroup } from 'react-simple-maps';
 import { geoNaturalEarth1 } from 'd3-geo';
 import { useSOCStore } from '../../app/store/useSOCStore';
-import geography from 'world-atlas/countries-110m.json';
 import { useAnimationActivity } from '../../hooks/useAnimationActivity';
 import { useVisualTestMode } from '../../config/visualTest';
+import type { Attack } from '../../types';
 
 const projection = geoNaturalEarth1().center([0,18]).scale(168).translate([500,190]);
+type ThreatMapRoute = Pick<Attack, 'id' | 'sourceCoordinates' | 'destinationCoordinates' | 'status'>;
 const cities: {name:string;position:[number,number];source:boolean;offset:[number,number]}[] = [
   {name:'San Francisco, US',position:[-122,38],source:true,offset:[-45,-40]},
   {name:'Londres, UK',position:[0,51],source:false,offset:[0,-37]},
@@ -15,7 +16,7 @@ const cities: {name:string;position:[number,number];source:boolean;offset:[numbe
   {name:'Shanghái, CN',position:[121,31],source:true,offset:[9,-9]},
   {name:'Sidney, AU',position:[151,-33],source:false,offset:[-20,7]},
 ];
-const demo = [
+const demo: ThreatMapRoute[] = [
   {id:'demo-1',sourceCoordinates:[-122,38],destinationCoordinates:[0,51],status:'IN TRANSIT'},
   {id:'demo-2',sourceCoordinates:[121,31],destinationCoordinates:[37,55],status:'IN TRANSIT'},
   {id:'demo-3',sourceCoordinates:[-74,4],destinationCoordinates:[151,-33],status:'IN TRANSIT'},
@@ -24,9 +25,9 @@ const demo = [
 ];
 
 /** Geographic, code-driven trajectories; no screenshot is used as a map. */
-export const ThreatMap = memo(function ThreatMap({compact=false}:{compact?:boolean}) {
+export const ThreatMap = memo(function ThreatMap({compact=false,routes: providedRoutes}:{compact?:boolean;routes?:ThreatMapRoute[]}) {
   const attacks=useSOCStore(s=>s.attacks);
-  const routes=useMemo(()=>attacks.length?attacks:demo,[attacks]);
+  const routes=useMemo(()=>providedRoutes?.length?providedRoutes:attacks.length?attacks:demo,[providedRoutes,attacks]);
   const id=useId().replace(/:/g,'');
   const rootRef=useRef<HTMLDivElement>(null);
   const visualTest=useVisualTestMode();
@@ -39,8 +40,6 @@ export const ThreatMap = memo(function ThreatMap({compact=false}:{compact?:boole
         <filter id={`${id}-glow`} x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="2"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
       <ZoomableGroup center={[0,18]}>
-        <Graticule stroke="#66418a" strokeWidth={.35} opacity={.24}/>
-        <Geographies geography={geography as unknown as string}>{({geographies})=>geographies.map(geo=><Geography key={geo.rsmKey} geography={geo} className="map-country" fill={`url(#${id}-land)`} stroke="#734a8e" strokeWidth={.3}/>)}</Geographies>
         {routes.map((route,index)=>{
           const source=projection(route.sourceCoordinates as [number,number]);
           const target=projection(route.destinationCoordinates as [number,number]);

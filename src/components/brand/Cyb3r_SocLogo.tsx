@@ -38,6 +38,6 @@ export function Cyb3r_SocLogo({
 
   return <div className={`brand cyber-logo-lockup ${isAnimated ? 'animated' : ''}`}>
     <Cyb3r_SocMark size={size} animated={isAnimated} watermark={variant === 'watermark'}/>
-    {showLockup && <div className="brand-type"><b>Cyb3r_<span>Soc</span></b><small>DETECTAR · ANALIZAR · PROTEGER</small></div>}
+    {showLockup && <div className="brand-type"><b>CYBER_SOC</b><small>DETECTAR · ANALIZAR · PROTEGER</small></div>}
   </div>;
 }

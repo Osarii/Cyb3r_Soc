@@ -41,12 +41,16 @@ import {
   Sphere,
 } from 'react-simple-maps';
 import geography from 'world-atlas/countries-110m.json';
-import ExactAttackSwitch from '../components/referenceExact/ExactAttackSwitch';
-import ExactBackground from '../components/referenceExact/ExactBackground';
+import InteractiveNeuralVortexBackground from '../components/backgrounds/InteractiveNeuralVortexBackground';
 import { Cyb3r_SocMark } from '../components/brand/Cyb3r_SocLogo';
 import { AmbientField } from '../components/brand/AmbientField';
 import { CyberAI } from '../components/ai/CyberAI';
+import CyberDeltaBadge from '../components/cyber/CyberDeltaBadge';
+import { AnimatedList } from '../components/ui-modern/animated-list';
+import { BorderBeam } from '../components/ui-modern/border-beam';
+import { NumberTicker } from '../components/ui-modern/number-ticker';
 import crystalCluster from '../assets/decorations/crystal-cluster-static.webp';
+import simulationControlDevice from '../assets/shared/simulation-control-device-optimized.webp';
 import { dashboardFixture } from '../data/fixtures/dashboard.fixture';
 import { useSOCStore } from '../app/store/useSOCStore';
 import './reference-dashboard.css';
@@ -141,10 +145,10 @@ export function ReferenceSidebar({
         <X size={20} />
       </button>
 
-      <Link className="rd-brand" to="/dashboard" onClick={onClose} aria-label="Cyb3r_Soc, ir al dashboard">
+      <Link className="rd-brand" to="/dashboard" onClick={onClose} aria-label="CYBER_SOC, ir al dashboard">
         <ReferenceBrandMark size={57} />
         <span className="rd-brand-copy">
-          <strong>Cyb3r_<span>Soc</span></strong>
+          <strong>CYBER_SOC</strong>
           <small>DETECTAR · ANALIZAR · PROTEGER</small>
         </span>
       </Link>
@@ -160,7 +164,7 @@ export function ReferenceSidebar({
           >
             <Icon size={20} strokeWidth={1.75} />
             <span>{label}</span>
-            {'badge' in item && item.badge ? <em>{item.badge}</em> : null}
+            {'badge' in item && item.badge ? <CyberDeltaBadge value={item.badge} variant="critical" /> : null}
           </Link>
         ))}
       </nav>
@@ -187,14 +191,22 @@ export function ReferenceSidebar({
       <div className={`rd-soc-status ${status === 'offline' ? 'is-offline' : ''}`}>
         <i />
         <span>
-          <strong>{status === 'online' ? 'SOC Online' : 'Cyb3r_Soc Offline'}</strong>
+          <strong>{status === 'online' ? 'SOC Online' : 'CYBER_SOC Offline'}</strong>
           <small>{status === 'online' ? 'Todos los sistemas operativos' : 'No hay conexión con el servidor'}</small>
         </span>
+        <BorderBeam
+          className="rd-soc-status-beam"
+          size={30}
+          duration={8}
+          colorFrom="#7651d6"
+          colorTo="#4f76d9"
+          borderWidth={1}
+        />
       </div>
 
       <img className="rd-sidebar-crystal" src={crystalCluster} alt="" aria-hidden="true" />
-      <p className="rd-sidebar-motto">UN MUNDO<br />MÁS SEGURO<br />ES POSIBLE</p>
-      <small className="rd-version">Cyb3r_Soc v1.0.0</small>
+      <p className="rd-sidebar-motto">DETECT · ANALYZE · RESPOND</p>
+      <small className="rd-version">CYBER_SOC v1.0.0</small>
     </aside>
   );
 }
@@ -237,10 +249,10 @@ export function ReferenceShell({ children, activePath = '/dashboard', status = '
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="reference-shell">
+    <div className={`reference-shell reference-shell--viewport ${activePath === '/dashboard' ? 'reference-shell--dashboard' : ''}`}>
       <div className="rd-space-background" aria-hidden="true">
         <AmbientField/>
-        <div className="rd-exact-background"><ExactBackground /></div>
+        <InteractiveNeuralVortexBackground />
         <i className="rd-bg-poly rd-bg-poly-one" />
         <i className="rd-bg-poly rd-bg-poly-two" />
       </div>
@@ -275,13 +287,26 @@ function StatCard({
   tone?: 'purple' | 'red' | 'green';
 }) {
   const points = chart.map((point, index) => `${index * (92 / (chart.length - 1))},${42 - point}`).join(' ');
+  const numericMatch = value.match(/^([+-]?[\d,]+(?:\.\d+)?)(.*)$/);
+  const numericValue = numericMatch ? Number(numericMatch[1].replace(/,/g, '')) : null;
+  const decimalPlaces = numericMatch?.[1].split('.')[1]?.length ?? 0;
   return (
     <section className={`rd-stat rd-panel rd-tone-${tone}`}>
       <span className="rd-stat-icon">{icon}</span>
       <span className="rd-stat-copy">
         <small>{label}</small>
         <span>
-          <strong>{value}</strong>
+          <strong style={{ minWidth: `${value.length}ch` }}>
+            {numericValue === null ? value : <>
+              <NumberTicker
+                className="rd-stat-number-ticker"
+                value={numericValue}
+                decimalPlaces={decimalPlaces}
+                delay={0.04}
+              />
+              {numericMatch?.[2]}
+            </>}
+          </strong>
           <em className={direction === 'down' ? 'is-down' : ''}>{direction === 'down' ? '↓' : '↗'} {delta}</em>
         </span>
       </span>
@@ -306,7 +331,7 @@ function ThreatMapPanel() {
         <span className="rd-section-symbol"><Crosshair size={18} /></span>
         <span className="rd-section-title">
           <strong>Mapa de amenazas en tiempo real</strong>
-          <small>Ataques y actividad global detectada por Cyb3r_Soc</small>
+          <small>Ataques y actividad global detectada por CYBER_SOC</small>
         </span>
         <div className="rd-map-filters">
           <button type="button">Últimas 24 horas <ChevronDown size={13} /></button>
@@ -387,6 +412,14 @@ function ThreatMapPanel() {
 
 function AttackSimulationCard() {
   const addAttack = useSOCStore(state => state.addAttack);
+  const [launched, setLaunched] = useState(false);
+
+  const toggleSimulation = () => {
+    const next = !launched;
+    setLaunched(next);
+    if (next) addAttack('DDoS');
+  };
+
   return (
     <section className="rd-attack-card rd-panel">
       <header className="rd-section-header">
@@ -397,7 +430,19 @@ function AttackSimulationCard() {
         </span>
       </header>
 
-      <div className="rd-exact-attack"><ExactAttackSwitch buttonLabel="Iniciar simulación" onLaunch={() => addAttack('DDoS')} /></div>
+      <div className="rd-attack-body">
+        <div className="rd-attack-device" aria-hidden="true">
+          <img src={simulationControlDevice} alt="" />
+        </div>
+        <div className="rd-simulation-copy">
+          <span><TriangleAlert size={17} /> SIMULACIÓN CONTROLADA</span>
+          <p>Ejecuta un escenario de ataque para validar detecciones y respuestas.</p>
+        </div>
+      </div>
+      <button className="rd-start-simulation" type="button" onClick={toggleSimulation} aria-pressed={launched}>
+        <Play size={15} fill="currentColor" />
+        {launched ? 'Simulación iniciada' : 'Iniciar simulación'}
+      </button>
     </section>
   );
 }
@@ -410,15 +455,17 @@ function IntelligenceFeed() {
         <span className="rd-section-title"><strong>Inteligencia de amenazas</strong></span>
         <Link to="/intelligence">Ver todas <ChevronRight size={13} /></Link>
       </header>
-      <div className="rd-intel-list">
-        {intelligenceItems.map((item) => (
-          <article key={item.title}>
-            <i className={`rd-feed-dot is-${item.tone}`} />
-            <span><strong>{item.title}</strong><small>{item.detail}</small></span>
-            <time>{item.time}</time>
-          </article>
-        ))}
-      </div>
+      <AnimatedList className="rd-intel-list" delay={0}>
+        <div className="rd-intel-list-content">
+          {intelligenceItems.map((item) => (
+            <article key={item.title}>
+              <i className={`rd-feed-dot is-${item.tone}`} />
+              <span><strong>{item.title}</strong><small>{item.detail}</small></span>
+              <time>{item.time}</time>
+            </article>
+          ))}
+        </div>
+      </AnimatedList>
     </section>
   );
 }
@@ -430,22 +477,26 @@ function RecentIncidents() {
         <span className="rd-section-title"><strong>Incidentes recientes</strong></span>
         <Link to="/incidents">Ver todos <ChevronRight size={13} /></Link>
       </header>
-      <div className="rd-incident-table" role="table" aria-label="Incidentes recientes">
-        <div className="rd-incident-row rd-incident-head" role="row">
-          <span>SEVERIDAD</span><span>HORA</span><span>TÍTULO</span><span>ORIGEN</span><span>ACTIVO</span><span>ESTADO</span><span />
-        </div>
-        {incidentRows.map((incident) => (
-          <div className="rd-incident-row" role="row" key={`${incident.time}-${incident.title}`}>
-            <span className={`rd-severity is-${incident.tone}`}><i />{incident.severity}</span>
-            <time>{incident.time}</time>
-            <strong>{incident.title}</strong>
-            <code>{incident.origin}</code>
-            <code>{incident.asset}</code>
-            <span className={`rd-incident-state is-${incident.state}`}>{incident.status}</span>
-            <button type="button" aria-label={`Opciones para ${incident.title}`}><MoreHorizontal size={15} /></button>
-          </div>
-        ))}
-      </div>
+      <table className="rd-incident-table" aria-label="Incidentes recientes">
+        <thead>
+          <tr className="rd-incident-row rd-incident-head">
+            <th scope="col">SEVERIDAD</th><th scope="col">HORA</th><th scope="col">TÍTULO</th><th scope="col">ORIGEN</th><th scope="col">ACTIVO</th><th scope="col">ESTADO</th><th scope="col" aria-label="Opciones" />
+          </tr>
+        </thead>
+        <tbody>
+          {incidentRows.map((incident) => (
+            <tr className="rd-incident-row" key={`${incident.time}-${incident.title}`}>
+              <td className={`rd-severity is-${incident.tone}`}><i />{incident.severity}</td>
+              <td><time>{incident.time}</time></td>
+              <td><strong>{incident.title}</strong></td>
+              <td><code>{incident.origin}</code></td>
+              <td><code>{incident.asset}</code></td>
+              <td className={`rd-incident-state is-${incident.state}`}>{incident.status}</td>
+              <td><button type="button" aria-label={`Opciones para ${incident.title}`}><MoreHorizontal size={15} /></button></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </section>
   );
 }
@@ -500,10 +551,10 @@ export function DashboardReference({ withoutShell = false }: { withoutShell?: bo
       <div className="rd-dashboard-heading">
         <div>
           <span>VISTA GLOBAL</span>
-          <h1>Bienvenido a <b>Cyb3r_Soc</b></h1>
+          <h1>Bienvenido a <b>CYBER_SOC</b></h1>
           <p>Visibilidad. Contexto. Acción. Un entorno más seguro comienza aquí.</p>
         </div>
-        <blockquote>“La mejor defensa es una operación más inteligente.”<small>— Cyb3r_Soc</small></blockquote>
+        <blockquote><strong>ESTADO OPERACIONAL</strong><small>Todos los sistemas nominales</small></blockquote>
       </div>
 
       <div className="rd-stats-grid">

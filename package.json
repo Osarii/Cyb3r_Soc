@@ -18,14 +18,18 @@
     "visual:offline": "node scripts/visual-check.mjs offline",
     "visual:baseline": "node scripts/visual-baseline.mjs",
     "visual:accept": "node scripts/visual-accept.mjs",
-    "benchmark:rtk": "node scripts/rtk-benchmark.mjs"
+    "benchmark:rtk": "node scripts/rtk-benchmark.mjs",
+    "doctor": "npx react-doctor@latest"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "latest",
     "@tanstack/react-table": "^8.21.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "d3-geo": "latest",
     "framer-motion": "latest",
     "lucide-react": "latest",
+    "motion": "^13.3.0",
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest",
@@ -33,15 +37,21 @@
     "recharts": "latest",
     "sonner": "latest",
     "styled-components": "latest",
+    "tailwind-merge": "^3.7.0",
+    "three": "^0.186.0",
     "world-atlas": "^2.0.2",
     "zustand": "latest"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
+    "@tailwindcss/vite": "^4.3.3",
     "@types/d3-geo": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "latest",
+    "react-doctor": "^0.9.14",
+    "tailwindcss": "^4.3.3",
     "typescript": "latest",
     "vite": "latest"
   }

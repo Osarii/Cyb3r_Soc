@@ -49,3 +49,15 @@ html[data-visual-test="true"] .cyber-ai .ai-orb,html[data-visual-test="true"] .c
 @media(max-width:760px){.dashboard-grid .map-card,.dashboard-grid .console-card,.dashboard-grid .incidents-card,.dashboard-grid .trend-card,.dashboard-grid .intel-card{grid-column:auto;grid-row:auto}.sidebar:after{display:none}.page-head blockquote{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
 
+@media(min-width:981px){
+  .reference-shell--viewport .page{height:calc(100dvh - 64px);min-height:0;display:flex;flex-direction:column;padding:18px 27px;overflow:hidden}
+  .reference-shell--viewport .page-head{flex:0 0 auto;margin-bottom:16px}
+  .reference-shell--viewport .sim-grid,.reference-shell--viewport .analytics-grid{flex:1;min-height:0}
+  .reference-shell--viewport .sim-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1fr)}
+  .reference-shell--viewport .sim-grid>section{min-height:0;overflow:auto;scrollbar-width:none}
+  .reference-shell--viewport .analytics-grid{grid-template-rows:repeat(2,minmax(0,1fr))}
+  .reference-shell--viewport .analytics-grid>section{min-height:0;overflow:hidden}
+  .reference-shell--viewport .big-chart{height:calc(100% - 50px);min-height:0}
+  .reference-shell--viewport .sim-grid>section::-webkit-scrollbar{width:0;height:0}
+}
+

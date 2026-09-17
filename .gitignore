@@ -37,3 +37,6 @@ src/assets/branding.zip
 Thumbs.db
 .vscode/
 .idea/
+# Local agent tool files
+.agents/
+.claude/

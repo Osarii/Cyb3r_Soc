@@ -1,7 +1,8 @@
 import { Activity, Crosshair, Globe2, Shield, TriangleAlert, Zap } from 'lucide-react';
-import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import { ThreatMap } from '../components/map/ThreatMap';
+import CyberTargetingHUD from '../components/cyber/CyberTargetingHUD';
 import ExactAttackSwitch from '../components/referenceExact/ExactAttackSwitch';
+import simulationControlDevice from '../assets/shared/simulation-control-device-optimized.webp';
 import { useSOCStore } from '../app/store/useSOCStore';
 import { CyberAssistant } from './DashboardReference';
 import { Link } from 'react-router-dom';
@@ -25,6 +26,7 @@ export function ThreatMapReferenceContent({ visualTest = false }: { visualTest?:
   const addAttack = useSOCStore(s => s.addAttack);
   const setAttackStatus = useSOCStore(s => s.setAttackStatus);
   const activeAttack = attacks.at(-1);
+  const inTransitAttack = activeAttack?.status === 'IN TRANSIT' ? activeAttack : undefined;
   return <div className="ref-map-page">
     <header className="ref-map-title">
       <div><small>◉ &nbsp;OPERACIONES</small><h1>Mapa de amenazas en tiempo real</h1><p>Visualiza ataques, simula escenarios y fortalece tu defensa.</p></div>
@@ -39,12 +41,12 @@ export function ThreatMapReferenceContent({ visualTest = false }: { visualTest?:
     </div>
     <div className="ref-map-workspace">
       <section className="ref-panel ref-map-stage">
-        <div className="ref-panel-head"><div className="mini-star">✦</div><div><b>Mapa de amenazas en tiempo real</b><small>Ataques y actividad global detectada por Cyb3r_Soc</small></div><div className="map-filters"><button>Últimas 24 horas⌄</button><button>Todas las amenazas⌄</button></div></div>
-        <div className="world-stage"><ThreatMap/><img className="map-radar-decoration" src={radarDecoration} alt="" aria-hidden="true"/><div className="place-label sf">San Francisco, US<small>Origen de ataque</small></div><div className="place-label london">Londres, UK<small>Destino</small></div><div className="place-label moscow">Moscú, RU<small>Origen de ataque</small></div><div className="place-label bogota">Bogotá, CO<small>Origen de ataque</small></div><div className="place-label shanghai">Shanghái, CN<small>Origen de ataque</small></div><div className="place-label sydney">Sidney, AU<small>Destino</small></div><div className="map-controls"><button>＋</button><button>−</button><button>⌾</button></div><div className="type-legend"><b>✹ &nbsp; Tipos de ataque</b>{chart.slice(0,5).map(x=><span key={x.name}><i style={{background:x.color}}/>{x.name}</span>)}</div><div className="view-tabs">Vista: <b>Ataques</b><span>Tráfico</span><span>Riesgo</span></div></div>
+        <div className="ref-panel-head"><div className="mini-star">✦</div><div><b>Mapa de amenazas en tiempo real</b><small>Ataques y actividad global detectada por CYBER_SOC</small></div><div className="map-filters"><button>Últimas 24 horas⌄</button><button>Todas las amenazas⌄</button></div></div>
+        <div className="world-stage"><ThreatMap/>{inTransitAttack ? <CyberTargetingHUD className="map-targeting-hud" label={inTransitAttack.destination} status={inTransitAttack.status}/> : null}<img className="map-radar-decoration" src={radarDecoration} alt="" aria-hidden="true"/><div className="place-label sf">San Francisco, US<small>Origen de ataque</small></div><div className="place-label london">Londres, UK<small>Destino</small></div><div className="place-label moscow">Moscú, RU<small>Origen de ataque</small></div><div className="place-label bogota">Bogotá, CO<small>Origen de ataque</small></div><div className="place-label shanghai">Shanghái, CN<small>Origen de ataque</small></div><div className="place-label sydney">Sidney, AU<small>Destino</small></div><div className="map-controls"><button aria-label="Acercar mapa">＋</button><button aria-label="Alejar mapa">−</button><button aria-label="Centrar mapa">⌾</button></div><div className="type-legend"><b>✹ &nbsp; Tipos de ataque</b>{chart.slice(0,5).map(x=><span key={x.name}><i style={{background:x.color}}/>{x.name}</span>)}</div><div className="view-tabs">Vista: <b>Ataques</b><span>Tráfico</span><span>Riesgo</span></div></div>
       </section>
       <aside className="ref-map-console ref-panel">
         <div className="ref-panel-head"><div className="mini-star">✦</div><div><b>Simulación de ataque</b><small>Prueba la preparación de tu entorno</small></div></div>
-        <div className="console-slot"><div className="map-exact-attack"><ExactAttackSwitch onLaunch={() => addAttack('DDoS')}/></div></div>
+        <div className="console-slot"><div className="map-exact-attack"><ExactAttackSwitch deviceAsset={simulationControlDevice} onLaunch={() => addAttack('DDoS')}/></div></div>
         <div className="quick-actions"><button disabled={!activeAttack} onClick={() => activeAttack && setAttackStatus(activeAttack.id, 'CONTAINED')}><Crosshair/> <b>Neutralizar</b><small>Contiene el ataque simulado</small></button><Link aria-disabled={!activeAttack} to={activeAttack ? `/incidents/${activeAttack.incidentId}/mitigation` : '/threat-map'} onClick={() => activeAttack && setAttackStatus(activeAttack.id, 'CONTAINED')}><Zap/><b>Limpieza</b><small>Elimina rastros del escenario</small></Link><button disabled={!activeAttack} onClick={() => activeAttack && setAttackStatus(activeAttack.id, 'CONTAINED')}><Shield/><b>Modo aislado</b><small>Aísla sistemas en prueba</small></button></div>
         <div className="scenario-info"><b>Escenario de simulación</b><button>DDoS a infraestructura crítica⌄</button><dl><div><dt>Objetivo</dt><dd>Servidores web (DMZ)</dd></div><div><dt>Intensidad</dt><dd>Alta</dd></div><div><dt>Duración</dt><dd>10 minutos</dd></div><div><dt>Vectores</dt><dd>Múltiples (L3/L7)</dd></div></dl></div>
       </aside>
@@ -52,7 +54,7 @@ export function ThreatMapReferenceContent({ visualTest = false }: { visualTest?:
     <div className="ref-map-bottom">
       <MiniTable title="Actividad en tiempo real" rows={events}/>
       <section className="ref-panel origin-table"><div className="small-head"><b>Top orígenes de ataque</b><span>Ver todos ›</span></div>{origins.map(r=><div className="origin-row" key={r[1]}><span>{r[0]} {r[1]}</span><span>{r[2]}</span><span>{r[3]}</span><span>{r[4]} <i/></span></div>)}</section>
-      <section className="ref-panel type-chart"><div className="small-head"><b>Tipos de ataque</b><span>Últimas 24 horas⌄</span></div><div className="donut"><ResponsiveContainer><PieChart><Pie isAnimationActive={false} data={chart} dataKey="value" innerRadius={43} outerRadius={66} paddingAngle={0}>{chart.map(x=><Cell key={x.name} fill={x.color}/>)}</Pie></PieChart></ResponsiveContainer><strong>2,843<small>Total</small></strong></div><div className="donut-legend">{chart.map(x=><span key={x.name}><i style={{background:x.color}}/>{x.name}<b>{x.value}%</b></span>)}</div></section>
+      <section className="ref-panel type-chart"><div className="small-head"><b>Tipos de ataque</b><span>Últimas 24 horas⌄</span></div><div className="type-bars">{chart.map(x=><div className="type-bar" key={x.name}><span>{x.name}</span><i><b style={{width:`${x.value / 34 * 100}%`,background:x.color}} /></i><strong>{x.value}%</strong></div>)}</div></section>
     </div>
     <footer className="safe-footer"><i/> Simulación controlada <span/> Entorno de pruebas <span/> Sin impacto en producción</footer><CyberAssistant/>
   </div>;
